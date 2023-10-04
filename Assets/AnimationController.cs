@@ -21,9 +21,13 @@ public class AnimationController : MonoBehaviour
 
     void UpdateAnimations()
     {
-        float moveSpeed = GetComponent<Rigidbody>().velocity.magnitude;
+        
+        Vector3 velocity = GetComponent<Rigidbody>().velocity;
+        Vector3 forwardDirection = transform.forward;
+        float speedInForwardDirection = Vector3.Dot(velocity, forwardDirection);
 
-        animator.SetFloat("moveSpeed", moveSpeed);
+        Debug.Log(speedInForwardDirection);
+        animator.SetFloat("moveSpeed", speedInForwardDirection);
         animator.SetBool("isGrounded", playerMovement.isGrounded);
         animator.SetBool("isRunning", playerMovement.isRunning);
         animator.SetBool("isWalking", playerMovement.isWalking);

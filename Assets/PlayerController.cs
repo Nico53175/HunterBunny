@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] LayerMask groundLayer;
+    [SerializeField] float groundCheckDistance;
     [SerializeField] float speed = 5f;
     [SerializeField] float jumpForce = 5f;
     [SerializeField] float runMultiplier = 1.5f;
@@ -69,6 +70,6 @@ public class PlayerController : MonoBehaviour
     void CheckIfGrounded()
     {
         Ray ray = new Ray(transform.position, Vector3.down);
-        isGrounded = Physics.Raycast(ray, 0.1f, groundLayer);
+        isGrounded = Physics.Raycast(ray, groundCheckDistance, groundLayer);
     }
 }
