@@ -69,6 +69,6 @@ public class PlayerController : MonoBehaviour
     void CheckIfGrounded()
     {
         Ray ray = new Ray(transform.position, Vector3.down);
-        isGrounded = Physics.Raycast(ray, 0.6f, groundLayer);
+        isGrounded = Physics.Raycast(ray, 0.1f, groundLayer);
     }
 }
