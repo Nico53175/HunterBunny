@@ -19,15 +19,16 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
     }
+
     private void Update()
     {
         CheckIfGrounded();
         Move();
         Jump();
     }
+
     void Move()
     {
-        float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
         float currentSpeed = speed;
 
@@ -39,7 +40,11 @@ public class PlayerController : MonoBehaviour
             isRunning = true;
         }
 
-        Vector3 moveDirection = new Vector3(moveX, 0f, moveZ);
+        Vector3 forwardMovement = Camera.main.transform.forward * moveZ;
+
+        Vector3 moveDirection = forwardMovement;
+        moveDirection.y = 0f;
+        moveDirection.z = 0f;
 
         if (moveDirection.magnitude > 0.1f)
         {
@@ -58,8 +63,10 @@ public class PlayerController : MonoBehaviour
             isWalking = false;
             isRunning = false;
         }
+
         rb.velocity = new Vector3(moveDirection.x * currentSpeed, rb.velocity.y, moveDirection.z * currentSpeed);
     }
+
     void Jump()
     {
         if (Input.GetButtonDown("Jump") && isGrounded)
@@ -67,6 +74,7 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(new Vector3(0f, jumpForce, 0f), ForceMode.Impulse);
         }
     }
+
     void CheckIfGrounded()
     {
         Ray ray = new Ray(transform.position, Vector3.down);

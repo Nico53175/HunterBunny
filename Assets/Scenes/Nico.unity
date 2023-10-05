@@ -190,13 +190,16 @@ PrefabInstance:
       addedObject: {fileID: 237735935}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8a91961251fc05444adabf996959fb2f, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 237735943}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8a91961251fc05444adabf996959fb2f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 237735945}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8a91961251fc05444adabf996959fb2f, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 237735939}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8a91961251fc05444adabf996959fb2f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 237735941}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8a91961251fc05444adabf996959fb2f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 237735943}
   m_SourcePrefab: {fileID: 100100000, guid: 8a91961251fc05444adabf996959fb2f, type: 3}
 --- !u!1 &237735934 stripped
 GameObject:
@@ -218,7 +221,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  groundCheckDistance: 1
+  groundCheckDistance: 0.1
   speed: 5
   jumpForce: 5
   runMultiplier: 1.5
@@ -283,7 +286,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!65 &237735941
 BoxCollider:
@@ -319,6 +322,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 2.5, z: -5}
+  rotationSpeed: 2
+--- !u!114 &237735945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237735934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f536a35b517fce1448c11d7729a76759, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,7 +581,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 8556262120643298411, guid: 07842e7398e23ab4fa22f9417141195b, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

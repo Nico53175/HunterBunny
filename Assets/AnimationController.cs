@@ -27,7 +27,7 @@ public class AnimationController : MonoBehaviour
         float speedInForwardDirection = Vector3.Dot(velocity, forwardDirection);
 
         Debug.Log(speedInForwardDirection);
-        animator.SetFloat("moveSpeed", speedInForwardDirection);
+        animator.SetFloat("moveSpeed", Mathf.Abs(speedInForwardDirection));
         animator.SetBool("isGrounded", playerMovement.isGrounded);
         animator.SetBool("isRunning", playerMovement.isRunning);
         animator.SetBool("isWalking", playerMovement.isWalking);
