@@ -1101,6 +1101,10 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8268816076510884681, guid: 4b96ed2e28e75d045bd2cf28aa52cbf4, type: 3}
+      propertyPath: visionRadius
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 8268816076510884681, guid: 4b96ed2e28e75d045bd2cf28aa52cbf4, type: 3}
       propertyPath: rotationLerpSpeedHover
       value: 2
       objectReference: {fileID: 0}
