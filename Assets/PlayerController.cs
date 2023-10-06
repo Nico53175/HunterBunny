@@ -41,7 +41,6 @@ public class PlayerController : MonoBehaviour
         }
 
         Vector3 forwardMovement = Camera.main.transform.forward * moveZ;
-
         Vector3 moveDirection = forwardMovement;
 
         if (moveDirection.magnitude > 0.1f)

@@ -122,9 +122,13 @@ public class DroneController : MonoBehaviour
 
             // Choose a random speed between minSpeed and maxSpeed
             currentSpeed = Random.Range(minSpeed, maxSpeed);
-
+            if (Vector3.Distance(transform.position, playerTransform.position) > hoverRadius)
+            {
+                currentSpeed = currentSpeed * 2.5f;
+            }
             nextUpdateTime = Time.time + updateFrequency;
         }
+
         // Move towards the target position at the current speed
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, currentSpeed * Time.deltaTime);
 
@@ -137,6 +141,11 @@ public class DroneController : MonoBehaviour
     {
         if (detectedEnemies.Count > 0)
         {
+            foreach (LineRenderer renderer in laserRenderers)
+            {
+                renderer.enabled = true;
+            }
+
             Transform enemy = GetClosestDetectedEnemy();
             bool enemyDestroyed = false;
 
@@ -171,12 +180,14 @@ public class DroneController : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(laserStartPosition, transform.forward, out hit, attackRayLength))
                 {
-                    Destroy(hit.transform.gameObject);
-                    detectedEnemies.Remove(hit.transform);
-                    laserEndPosition = hit.point;
-                    enemyDestroyed = true;
+                    if(hit.transform.gameObject.tag == "Enemy")
+                    {
+                        Destroy(hit.transform.gameObject);
+                        detectedEnemies.Remove(hit.transform);
+                        laserEndPosition = hit.point;
+                        enemyDestroyed = true;
+                    }
                 }
-
                 if (!enemyDestroyed)
                 {
                     DrawRay(laserRenderer, laserStartPosition, laserEndPosition);
@@ -187,7 +198,7 @@ public class DroneController : MonoBehaviour
             {
                 foreach(LineRenderer renderer in laserRenderers)
                 {
-                    renderer.positionCount = 0;
+                    renderer.enabled = false;
                 }
             }
             rayHideTime = Time.time + rayDisplayDuration;

@@ -28,7 +28,14 @@ public class CameraFollowPlayer : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(0, desiredRotationAngle, 0);
         offset = rotation * offset;
         RotatePlayer(rotation);
-        Camera.main.transform.LookAt(transform.position);
+        Vector3 lookPosition = transform.position + Vector3.up * CalculateVerticalOffset(15f, offset.magnitude);
+        Camera.main.transform.LookAt(lookPosition);
+    }
+
+    private float CalculateVerticalOffset(float angleInDegrees, float distanceToPlayer)
+    {
+        // This calculates the vertical offset based on the tangent of the angle and the distance to the player
+        return Mathf.Tan(angleInDegrees * Mathf.Deg2Rad) * distanceToPlayer;
     }
 
     private void RotatePlayer(Quaternion rotation)
