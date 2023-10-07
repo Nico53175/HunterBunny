@@ -2576,7 +2576,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1035693213050720781}
   m_Layer: 0
-  m_Name: DronePrefab
+  m_Name: (OLD) DronePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2591,7 +2591,7 @@ Transform:
   m_GameObject: {fileID: 6195516454712104724}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 4, z: -30}
+  m_LocalPosition: {x: -0, y: 4, z: 0}
   m_LocalScale: {x: 0.03, y: 0.03, z: 0.03}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3160,11 +3160,11 @@ MonoBehaviour:
   flightHeight: 2
   minSpeed: 2
   maxSpeed: 4
-  rotationLerpSpeed: 2
-  rayOffset: {x: 0.3, y: 0.2, z: 0.4}
-  attackRayLength: 5
+  rotationLerpSpeedHover: 0
   attackRayDuration: 4
   rayDisplayDuration: 0.5
+  rotationLerpSpeedAttack: 0
+  rayColor: {r: 0, g: 0.8721261, b: 1, a: 1}
   updateFrequency: 3
 --- !u!135 &3519552612484458463
 SphereCollider:
