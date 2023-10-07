@@ -56,6 +56,9 @@ public class DroneController : MonoBehaviour
             case DroneState.Attack:
                 DroneAttack();
                 break;
+            case DroneState.Observe:
+                DroneObserve();
+                break;
         }
     }
     private void Setup()
@@ -208,8 +211,6 @@ public class DroneController : MonoBehaviour
             currentState = DroneState.Hover;
         }
     }
-
-
     private void DrawRay(LineRenderer lr, Vector3 start, Vector3 end)
     {
         lr.enabled = true;
@@ -241,7 +242,6 @@ public class DroneController : MonoBehaviour
             currentState = DroneState.Attack;
         }
     }
-
     private void OnTriggerExit(Collider other)
     {
         // Remove the object from the detectedEnemies list if it leaves the trigger area
@@ -252,8 +252,18 @@ public class DroneController : MonoBehaviour
     }
 
     // Observe
-    private void DroneObserve()
+    private void DroneObserve() // Add Minimap to reveal it when entering this state
     {
+        if (Time.time > nextUpdateTime)
+        {
+            targetPosition = playerTransform.position + new Vector3(0, 10, 0);
+            nextUpdateTime = Time.time + updateFrequency;
+        }
 
+        // Move towards the target position at the current speed
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, currentSpeed * Time.deltaTime);
+
+        // Lerp the drone's rotation to match the player's rotation
+        transform.rotation = Quaternion.Lerp(transform.rotation, playerTransform.rotation, rotationLerpSpeedHover * Time.deltaTime);
     }
 }
