@@ -23,7 +23,7 @@ public class DroneStateManager : MonoBehaviour
 
     // Attack
     private List<LineRenderer> laserRenderers;
-    public List<Transform> detectedEnemies = new List<Transform>();
+    [HideInInspector] public List<Transform> detectedEnemies = new List<Transform>();
 
     // Interface Methodes
     public void SetState(IDroneState newState)

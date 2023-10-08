@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rayDisplayDuration: 0.5
   rotationLerpSpeedAttack: 4
-  rayColor: {r: 0.49019608, g: 1, b: 1, a: 0}
+  rayColor: {r: 1, g: 0, b: 0.03455162, a: 0}
