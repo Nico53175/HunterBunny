@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     private Transform player;
+    [SerializeField] private float speed;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,5 +16,6 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         transform.LookAt(player);
+        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
     }
 }
