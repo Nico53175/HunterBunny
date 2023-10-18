@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SnakeController : MonoBehaviour
 {
-    [SerializeField] GameObject snakeHead;
     [SerializeField] GameObject snakeSegment;
     [SerializeField] float timerDuration;
     float currentTime;
@@ -26,7 +25,6 @@ public class SnakeController : MonoBehaviour
         {
             this.gameObject
         };
-
     }
 
     void Update()
