@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Food
   - Segment
+  - Camera
   layers:
   - Default
   - TransparentFX

@@ -1,25 +1,30 @@
-using UnityEngine;
 using System.Collections.Generic;
-using System.Data;
+using UnityEngine;
 
 public class DroneAttackState : IDroneState
 {
     private DroneStateManager drone;
     private DroneStateAttackSO droneAttackSettings;
 
-    private List<Transform> detectedEnemies = new List<Transform>();
-    private float rayDisplayDuration;
-    private float rayHideTime;
+    // Attack Setting
     private float rotationLerpSpeedAttack;
-    private List<LineRenderer> laserRenderers = new List<LineRenderer>(); 
+
+    // Transform
+    private Transform droneTransform;
+    private List<Transform> detectedEnemies = new List<Transform>();
+    private List<LineRenderer> laserRenderers = new List<LineRenderer>();
 
     public DroneAttackState(DroneStateManager drone,List<LineRenderer> laserRenderers)
     {
         this.drone = drone;
         this.laserRenderers = laserRenderers;
+
+        // Set Drone Settings from SO
         droneAttackSettings = drone.droneAttackSettings;
-        rayDisplayDuration = droneAttackSettings.rayDisplayDuration;
         rotationLerpSpeedAttack = droneAttackSettings.rotationLerpSpeedAttack;
+
+        // Get needed Components
+        droneTransform = drone.GetComponent<Transform>();
     }
 
     public void Enter()
@@ -39,22 +44,21 @@ public class DroneAttackState : IDroneState
             Vector3 enemyPosition = enemy.position;
             bool enemyDestroyed = false;
 
-            Vector3 directionToEnemy = enemyPosition - drone.transform.position;
+            Vector3 directionToEnemy = enemyPosition - droneTransform.position;
 
-            Vector3 upVector = Vector3.Dot(drone.transform.up, directionToEnemy) < 0 ? -drone.transform.forward : drone.transform.up;
-
+            Vector3 upVector = Vector3.Dot(droneTransform.up, directionToEnemy) < 0 ? -droneTransform.forward : droneTransform.up; // Code to not flip drone on the head
             Quaternion desiredRotation = Quaternion.LookRotation(directionToEnemy, upVector);
-            drone.transform.rotation = Quaternion.Lerp(drone.transform.rotation, desiredRotation, rotationLerpSpeedAttack * Time.deltaTime);
+            droneTransform.rotation = Quaternion.Lerp(droneTransform.rotation, desiredRotation, rotationLerpSpeedAttack * Time.deltaTime);
 
-            float attackRayLength = Vector3.Distance(drone.transform.position, enemyPosition);
+            float attackRayLength = Vector3.Distance(droneTransform.position, enemyPosition); // Get RayLength
 
             foreach (var laserRenderer in laserRenderers)
             {
                 Vector3 laserStartPosition = laserRenderer.transform.position;
-                Vector3 laserEndPosition = laserStartPosition + drone.transform.forward * attackRayLength;
+                Vector3 laserEndPosition = laserStartPosition + droneTransform.forward * attackRayLength;
 
                 RaycastHit hit;
-                if (Physics.Raycast(laserStartPosition, drone.transform.forward, out hit, attackRayLength))
+                if (Physics.Raycast(laserStartPosition, droneTransform.forward, out hit, attackRayLength))
                 {
                     if (hit.transform.gameObject.tag == "Enemy")
                     {
@@ -77,8 +81,6 @@ public class DroneAttackState : IDroneState
                     renderer.enabled = false;
                 }
             }
-
-            rayHideTime = Time.time + rayDisplayDuration;
         }
         else
         {
@@ -108,7 +110,7 @@ public class DroneAttackState : IDroneState
 
         foreach (Transform enemy in detectedEnemies)
         {
-            float distance = Vector3.Distance(drone.transform.position, enemy.position);
+            float distance = Vector3.Distance(droneTransform.position, enemy.position);
             if (distance < closestDistance)
             {
                 closestDistance = distance;

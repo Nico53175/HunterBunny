@@ -4,6 +4,8 @@ public class DroneHoverState : IDroneState
 {
     private DroneStateManager drone;
     private DroneStateHoverSO droneHoverSettings;
+
+    // Local Variables
     private float currentSpeed = 0;
     private Vector3 targetPosition;
 
@@ -19,34 +21,46 @@ public class DroneHoverState : IDroneState
     private float updateFrequency = 3;
     private float nextUpdateTime = 0;
 
+    // Transform
+    private Transform droneTransform;
+    private Transform playerTransform;
+
     public DroneHoverState(DroneStateManager drone)
     {
         this.drone = drone;
-        currentSpeed = 2;
         droneHoverSettings = drone.droneHoverSettings;
+
+        // Set Drone Settings from SO
         visionRadius = droneHoverSettings.visionRadius;
         hoverRadius = droneHoverSettings.hoverRadius;
         flightHeight = droneHoverSettings.flightHeight;
         minSpeed = droneHoverSettings.minSpeed;
         maxSpeed = droneHoverSettings.maxSpeed;
         rotationLerpSpeedHover = droneHoverSettings.rotationLerpSpeedHover;
+
+        // Get needed Components
+        playerTransform = drone.playerTransform;
+        droneTransform = drone.GetComponent<Transform>();
+
+        // Set Variables 
+        currentSpeed = 2;
+        drone.visionRadiusCollider.radius = visionRadius;
     }
 
     public void Enter()
     {
-        // Actions which should only be made once when entering the state
-        drone.visionRadiusCollider.radius = visionRadius;
+        
     }
 
     public void Execute()
     {
         // Drone Settings
-        Vector3 dronePosition = drone.transform.position;
-        Quaternion droneRotation = drone.transform.rotation;
+        Vector3 dronePosition = droneTransform.position;
+        Quaternion droneRotation = droneTransform.rotation;
 
         // Player Settings
-        Vector3 playerPosition = drone.playerTransform.position;
-        Quaternion playerRotation = drone.playerTransform.rotation;
+        Vector3 playerPosition = playerTransform.position;
+        Quaternion playerRotation = playerTransform.rotation;
 
         if (Time.time > nextUpdateTime)
         {

@@ -10,6 +10,7 @@ public class DroneStateManager : MonoBehaviour
     private IDroneState _hoverState;
     private IDroneState _attackState;
     private IDroneState _observeState;
+    private IDroneState _playerState;
 
     // Player 
     [HideInInspector] public Transform playerTransform;
@@ -20,6 +21,8 @@ public class DroneStateManager : MonoBehaviour
     [SerializeField] public DroneStateHoverSO droneHoverSettings;
     [SerializeField] public DroneStateAttackSO droneAttackSettings;
     [SerializeField] public DroneStateObserveSO droneObserveSettings;
+    [SerializeField] public DroneStatePlayerSO dronePlayerSettings;
+    
 
     // Attack
     private List<LineRenderer> laserRenderers;
@@ -51,6 +54,7 @@ public class DroneStateManager : MonoBehaviour
         _hoverState = new DroneHoverState(this);
         _attackState = new DroneAttackState(this, laserRenderers);
         _observeState = new DroneObserveState(this);
+        _playerState = new DronePlayerState(this);
         SetState(_hoverState);
     }
 
@@ -95,8 +99,8 @@ public class DroneStateManager : MonoBehaviour
     }
     private void InitializeLineRenderer(LineRenderer lr)
     {
-        lr.startWidth = 0.1f; // adjust as needed
-        lr.endWidth = 0.1f;   // adjust as needed
+        lr.startWidth = 0.1f; 
+        lr.endWidth = 0.1f;   
         lr.positionCount = 2;
         lr.material = new Material(Shader.Find("Unlit/Color"));
         lr.material.color = droneAttackSettings.rayColor;

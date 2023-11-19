@@ -1,36 +1,50 @@
-using TMPro;
 using UnityEngine;
 
 public class DroneObserveState : IDroneState
 {
     private DroneStateManager drone;
     private DroneStateObserveSO droneObserveSettings;
+
+    // Local Variables
     private float observeStartTime;
     private float nextUpdateTime;
     private float updateFrequency = 3f;
     private Vector3 targetPosition;
 
+    // Observation Settings
     private float observationLength;
     private float observationFlightHeight;
     private float observationSpeed;
     private float observationRadius;
     private float rotationLerpSpeedObserve;
-    public DroneObserveState(DroneStateManager drone)
+
+    // Transform
+    private Transform droneTransform;
+    private Transform playerTransform;
+
+    public DroneObserveState(DroneStateManager drone) 
     {
         this.drone = drone;
         this.droneObserveSettings = drone.droneObserveSettings;
 
+        // Set Drone Settings from SO
         observationLength = droneObserveSettings.observationLength;
         observationFlightHeight = droneObserveSettings.observationFlightHeight;
         observationSpeed = droneObserveSettings.observationSpeed;
         observationRadius = droneObserveSettings.observationRadius;
         rotationLerpSpeedObserve = droneObserveSettings.rotationLerpSpeedObserve;
+
+        // Get needed Components
+        playerTransform = drone.playerTransform;
+        droneTransform = drone.GetComponent<Transform>();
+
+        // Set Variables 
+        drone.visionRadiusCollider.radius = observationRadius;
     }
 
     public void Enter()
     {
         observeStartTime = Time.time;
-        drone.visionRadiusCollider.radius = observationRadius;
     }
 
     public void Execute()
@@ -49,10 +63,13 @@ public class DroneObserveState : IDroneState
 
     private void RotateToObserve()
     {
-        Vector3 playerPosition = drone.playerTransform.position;
-        Vector3 dronePosition = drone.transform.position;
-        Quaternion droneRotation = drone.transform.rotation;
-        Quaternion playerRotation = drone.playerTransform.rotation;
+        // Player Settings
+        Vector3 playerPosition = playerTransform.position;
+        Quaternion playerRotation = playerTransform.rotation;
+
+        // Drone Settings
+        Vector3 dronePosition = droneTransform.position;
+        Quaternion droneRotation = droneTransform.rotation;
 
         if (Time.time > nextUpdateTime)
         {
