@@ -10,13 +10,11 @@ public class EnemyController : MonoBehaviour
     {
         if (healthSystem != null)
         {
-            Debug.Log("H");
             healthSystem.Initialize(enemy.enemyHealth, enemy.enemyLevel, enemy.healthCurve);
         }
 
         if (damageSystem != null)
         {
-            Debug.Log("D");
             damageSystem.Initialize(enemy.enemyDamage, enemy.enemyLevel, enemy.damageCurve);
         }
     }

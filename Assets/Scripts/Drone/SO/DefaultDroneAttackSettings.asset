@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b01a6e63037dcd43a0398db28941c5c, type: 3}
   m_Name: DefaultDroneAttackSettings
   m_EditorClassIdentifier: 
+  reloadTimer: 3
   rotationLerpSpeedAttack: 4
   rayColor: {r: 1, g: 0, b: 0.88550186, a: 0}

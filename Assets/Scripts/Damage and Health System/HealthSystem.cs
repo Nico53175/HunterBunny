@@ -16,7 +16,7 @@ public class HealthSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(GetHealthAtLevel());
+
     }
 
     // Update is called once per frame

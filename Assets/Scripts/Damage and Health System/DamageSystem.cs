@@ -16,7 +16,7 @@ public class DamageSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(GetDamageAtLevel());
+
     }
 
     // Update is called once per frame

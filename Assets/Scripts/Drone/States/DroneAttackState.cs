@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DroneAttackState : IDroneState
@@ -8,11 +10,16 @@ public class DroneAttackState : IDroneState
 
     // Attack Setting
     private float rotationLerpSpeedAttack;
+    private int reloadTimer;
 
     // Transform
     private Transform droneTransform;
     private List<Transform> detectedEnemies = new List<Transform>();
     private List<LineRenderer> laserRenderers = new List<LineRenderer>();
+
+    // Variables 
+    private const string reloadTimerId = "ReloadTimer";
+    bool areRendererEnabled;
 
     public DroneAttackState(DroneStateManager drone,List<LineRenderer> laserRenderers)
     {
@@ -22,6 +29,7 @@ public class DroneAttackState : IDroneState
         // Set Drone Settings from SO
         droneAttackSettings = drone.droneAttackSettings;
         rotationLerpSpeedAttack = droneAttackSettings.rotationLerpSpeedAttack;
+        reloadTimer = droneAttackSettings.reloadTimer;
 
         // Get needed Components
         droneTransform = drone.GetComponent<Transform>();
@@ -33,53 +41,33 @@ public class DroneAttackState : IDroneState
         {
             renderer.enabled = true;
         }
+        detectedEnemies = drone.detectedEnemies;
+        ReloadTimer.StartTimer(reloadTimerId, 0.5f); // Timer
     }
 
     public void Execute()
     {
-        detectedEnemies = drone.detectedEnemies;
         if (detectedEnemies.Count > 0)
         {
-            Transform enemy = GetClosestDetectedEnemy();
-            Vector3 enemyPosition = enemy.position;
-            bool enemyDestroyed = false;
-
-            Vector3 directionToEnemy = enemyPosition - droneTransform.position;
-
-            Vector3 upVector = Vector3.Dot(droneTransform.up, directionToEnemy) < 0 ? -droneTransform.forward : droneTransform.up; // Code to not flip drone on the head
-            Quaternion desiredRotation = Quaternion.LookRotation(directionToEnemy, upVector);
-            droneTransform.rotation = Quaternion.Lerp(droneTransform.rotation, desiredRotation, rotationLerpSpeedAttack * Time.deltaTime);
-
-            float attackRayLength = Vector3.Distance(droneTransform.position, enemyPosition); // Get RayLength
-
-            foreach (var laserRenderer in laserRenderers)
+            if (!ReloadTimer.IsTimerDone(reloadTimerId))
             {
-                Vector3 laserStartPosition = laserRenderer.transform.position;
-                Vector3 laserEndPosition = laserStartPosition + droneTransform.forward * attackRayLength;
-
-                RaycastHit hit;
-                if (Physics.Raycast(laserStartPosition, droneTransform.forward, out hit, attackRayLength))
+                if (areRendererEnabled)
                 {
-                    if (hit.transform.gameObject.tag == "Enemy")
-                    {
-                        drone.DestroyEnemy(hit.transform.gameObject);
-                        detectedEnemies.Remove(hit.transform);
-                        laserEndPosition = hit.point;
-                        enemyDestroyed = true;
-                    }
+                    DisableLasers();
+                    areRendererEnabled = false;
                 }
-                if (!enemyDestroyed)
-                {
-                    DrawRay(laserRenderer, laserStartPosition, laserEndPosition);
-                }
+                RotateTowardsTarget();
+                ReloadTimer.Update();
             }
-
-            if (enemyDestroyed)
+            else
             {
-                foreach (LineRenderer renderer in laserRenderers)
+                detectedEnemies = drone.detectedEnemies;
+                if (!areRendererEnabled)
                 {
-                    renderer.enabled = false;
+                    EnableLasers();
+                    areRendererEnabled = true;
                 }
+                ProcessAttack();
             }
         }
         else
@@ -94,6 +82,8 @@ public class DroneAttackState : IDroneState
         {
             renderer.enabled = false;
         }
+
+        ReloadTimer.StopTimer(reloadTimerId);
     }
 
     private void DrawRay(LineRenderer lr, Vector3 start, Vector3 end)
@@ -101,6 +91,77 @@ public class DroneAttackState : IDroneState
         lr.enabled = true;
         lr.SetPosition(0, start);
         lr.SetPosition(1, end);
+    }
+
+    private void ProcessAttack()
+    {        
+        Transform enemy = GetClosestDetectedEnemy();
+        if (enemy != null)
+        {
+            PerformAttack(enemy);
+        }
+    }
+
+    private void PerformAttack(Transform enemy)
+    {
+        RotateTowardsEnemy(enemy);
+        AttackEnemy(enemy);
+    }
+
+    private void RotateTowardsEnemy(Transform enemy)
+    {
+        Vector3 directionToEnemy = enemy.position - droneTransform.position;
+        Quaternion desiredRotation = Quaternion.LookRotation(directionToEnemy, Vector3.up);
+        droneTransform.rotation = Quaternion.Lerp(droneTransform.rotation, desiredRotation, rotationLerpSpeedAttack * Time.deltaTime);
+    }
+
+    private void AttackEnemy(Transform enemy)
+    {
+        float attackRayLength = Vector3.Distance(droneTransform.position, enemy.position);
+        foreach (var laserRenderer in laserRenderers)
+        {
+            Vector3 laserStartPosition = laserRenderer.transform.position;
+            Vector3 laserEndPosition = laserStartPosition + droneTransform.forward * attackRayLength;
+
+            if (RaycastEnemy(laserStartPosition, laserEndPosition, attackRayLength))
+            {
+                ReloadTimer.StartTimer(reloadTimerId, reloadTimer); // Start Reload Timer
+            }
+            else
+            {
+                DrawRay(laserRenderer, laserStartPosition, laserEndPosition);
+            }
+        }
+    }
+
+    private bool RaycastEnemy(Vector3 start, Vector3 end, float length)
+    {
+        if (Physics.Raycast(start, droneTransform.forward, out RaycastHit hit, length))
+        {
+            if (hit.transform.gameObject.tag == "Enemy")
+            {
+                drone.DestroyEnemy(hit.transform.gameObject);
+                detectedEnemies.Remove(hit.transform);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void DisableLasers()
+    {
+        foreach (LineRenderer renderer in laserRenderers)
+        {
+            renderer.enabled = false;
+        }
+    }
+
+    private void EnableLasers()
+    {
+        foreach (LineRenderer renderer in laserRenderers)
+        {
+            renderer.enabled = true;
+        }
     }
 
     private Transform GetClosestDetectedEnemy()
@@ -117,7 +178,14 @@ public class DroneAttackState : IDroneState
                 closestEnemy = enemy;
             }
         }
+        return closestEnemy;        
+    }
 
-        return closestEnemy;
+    private void RotateTowardsTarget()
+    {
+        Vector3 enemyPos = GetClosestDetectedEnemy().position;
+        droneTransform.position = Vector3.MoveTowards(droneTransform.position, droneTransform.position - enemyPos, Time.deltaTime);
+        Quaternion targetRotation = Quaternion.LookRotation(enemyPos - droneTransform.position);
+        droneTransform.rotation = Quaternion.Lerp(droneTransform.rotation, targetRotation, Time.deltaTime);
     }
 }
