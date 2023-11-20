@@ -13,9 +13,15 @@ public class EnemyController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         transform.LookAt(player);
         transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+    }
+
+    private void OnDestroy()
+    {
+        // Play death animation 
+        // Particle System
     }
 }

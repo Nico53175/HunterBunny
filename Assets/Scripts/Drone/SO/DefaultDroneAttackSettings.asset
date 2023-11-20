@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: DefaultDroneAttackSettings
   m_EditorClassIdentifier: 
   rotationLerpSpeedAttack: 4
-  rayColor: {r: 0, g: 0.21097231, b: 1, a: 0}
+  rayColor: {r: 1, g: 0, b: 0.88550186, a: 0}

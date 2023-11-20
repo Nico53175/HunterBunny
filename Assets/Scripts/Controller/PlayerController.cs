@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
@@ -30,38 +31,21 @@ public class PlayerController : MonoBehaviour
     void Move()
     {
         float moveZ = Input.GetAxis("Vertical");
-        float currentSpeed = speed;
 
-        isRunning = false;
+        // Calculate the current speed based on whether the player is running or walking
+        float currentSpeed = (Input.GetKey(KeyCode.LeftShift) && moveZ > 0) ? speed * runMultiplier : speed;
 
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            currentSpeed *= runMultiplier;
-            isRunning = true;
-        }
-
+        // Determine the forward movement direction based on the camera's forward direction
         Vector3 forwardMovement = Camera.main.transform.forward * moveZ;
-        Vector3 moveDirection = forwardMovement;
+        forwardMovement.y = 0; // Ensure the movement is horizontal
+        forwardMovement.Normalize(); // Normalize to ensure consistent speed regardless of the camera's pitch
 
-        if (moveDirection.magnitude > 0.1f)
-        {
-            if (isRunning)
-            {
-                isWalking = false;
-            }
-            else
-            {
-                isWalking = true;
-                isRunning = false;
-            }
-        }
-        else
-        {
-            isWalking = false;
-            isRunning = false;
-        }
+        // Set the boolean flags based on the movement direction and speed
+        isWalking = moveZ != 0 && !Input.GetKey(KeyCode.LeftShift);
+        isRunning = moveZ != 0 && Input.GetKey(KeyCode.LeftShift);
 
-        rb.velocity = new Vector3(moveDirection.x * currentSpeed, rb.velocity.y, moveDirection.z * currentSpeed);
+        // Apply the calculated velocity to the Rigidbody
+        rb.velocity = new Vector3(forwardMovement.x * currentSpeed, rb.velocity.y, forwardMovement.z * currentSpeed);
     }
 
     void Jump()
@@ -74,7 +58,8 @@ public class PlayerController : MonoBehaviour
 
     void CheckIfGrounded()
     {
-        Ray ray = new Ray(transform.position, Vector3.down);
-        isGrounded = Physics.Raycast(ray, groundCheckDistance, groundLayer);
+        Ray ray = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
+        RaycastHit hit;
+        isGrounded = Physics.Raycast(ray, out hit, groundCheckDistance, groundLayer) ? true : false;
     }
 }
