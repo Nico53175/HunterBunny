@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.UI.Image;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour

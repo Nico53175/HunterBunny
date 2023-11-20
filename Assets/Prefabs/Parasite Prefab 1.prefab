@@ -558,6 +558,8 @@ GameObject:
   - component: {fileID: 5685526414264159276}
   - component: {fileID: 1546605446348035368}
   - component: {fileID: 8877437754859744380}
+  - component: {fileID: 3130000789219605120}
+  - component: {fileID: 2882275352599589892}
   m_Layer: 7
   m_Name: 'Parasite '
   m_TagString: Enemy
@@ -677,7 +679,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87f893a7f0d5e8544ab543db44f50ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.5
+  enemy: {fileID: 11400000, guid: c6b0896f5d4b6354e9e1f4552a53f55d, type: 2}
+  healthSystem: {fileID: 3130000789219605120}
+  damageSystem: {fileID: 2882275352599589892}
 --- !u!114 &8877437754859744380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -688,6 +692,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3947d048b54214840b53c5b2418276d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3130000789219605120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2807864557579586226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef7783627e4ab5b48bc5a1e5e5c2f639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2882275352599589892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2807864557579586226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c7469c577223dc40b1b27f3876f4450, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2877278482881950623

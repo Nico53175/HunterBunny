@@ -1509,7 +1509,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4543182910971805373, guid: 422e1b1dad3f2574394e82c85c0d247a, type: 3}
       propertyPath: groundCheckDistance
-      value: 0.2
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 4552959351307467435, guid: 422e1b1dad3f2574394e82c85c0d247a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1813,11 +1813,11 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 963194228}
-  - {fileID: 705507995}
-  - {fileID: 8810965207731864427}
   - {fileID: 1309128824}
+  - {fileID: 705507995}
+  - {fileID: 963194228}
   - {fileID: 2095375520}
-  - {fileID: 451377531}
   - {fileID: 37282289}
   - {fileID: 577913893}
+  - {fileID: 451377531}
+  - {fileID: 8810965207731864427}
