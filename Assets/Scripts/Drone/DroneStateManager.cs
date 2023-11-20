@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.XR;
 using static DroneController;
 
 public class DroneStateManager : MonoBehaviour
@@ -46,6 +47,16 @@ public class DroneStateManager : MonoBehaviour
     {
         return _attackState;
     }
+    
+    public IDroneState GetObserveState()
+    {
+        return _observeState;
+    }
+    
+    public IDroneState GetPlayerState()
+    {
+        return _playerState;
+    }
 
     // Execution
     private void Start()
@@ -58,13 +69,32 @@ public class DroneStateManager : MonoBehaviour
         SetState(_hoverState);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         _currentState.Execute();
 
         if (Input.GetKeyDown(KeyCode.O))
         {
             SetState(_currentState != _observeState ? _observeState : _hoverState);
+        }
+        
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if(_currentState != _playerState)
+            {
+                SetState(_playerState);
+            }
+            else
+            {
+                if (detectedEnemies.Count > 0)
+                {
+                    SetState(_attackState);
+                }
+                else
+                {
+                    SetState(_hoverState);
+                }
+            }
         }
     }
 
@@ -116,7 +146,10 @@ public class DroneStateManager : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             detectedEnemies.Add(other.transform);
-            SetState(GetAttackState());
+            if(_currentState != _playerState)
+            {
+                SetState(_attackState);
+            }
         }
     }
     private void OnTriggerExit(Collider other)

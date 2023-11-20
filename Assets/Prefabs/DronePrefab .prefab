@@ -572,6 +572,7 @@ Transform:
   - {fileID: 6105872854305119730}
   - {fileID: 799351900950791103}
   - {fileID: 4663918530828409584}
+  - {fileID: 6397720603128970519}
   m_Father: {fileID: 4017643592641906747}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &8645174037959459110
@@ -1049,7 +1050,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6397720603128970519}
   - component: {fileID: 2391847372988582078}
-  - component: {fileID: 5553995049154385442}
   m_Layer: 0
   m_Name: DroneCamera
   m_TagString: Camera
@@ -1065,12 +1065,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1186704408824871099}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4017643592641906747}
+  m_Father: {fileID: 8104690859943538945}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &2391847372988582078
 Camera:
@@ -1123,14 +1123,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &5553995049154385442
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1186704408824871099}
-  m_Enabled: 1
 --- !u!1 &1687585676837327143
 GameObject:
   m_ObjectHideFlags: 0
@@ -3591,7 +3583,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8104690859943538945}
-  - {fileID: 6397720603128970519}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8696674993782558536

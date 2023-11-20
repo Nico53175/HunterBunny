@@ -10,6 +10,10 @@ public class DronePlayerState : IDroneState
     private Camera droneCamera;
 
     // Player Settings
+    private CameraFollowPlayer cameraFollowPlayerScript;
+    private PlayerController playerControllerScript;
+
+    // Drone Settings
     private float startSpeed;
     private float maxSpeed;
     private float acceleration;
@@ -37,7 +41,9 @@ public class DronePlayerState : IDroneState
 
         // Get needed Components
         droneTransform = drone.GetComponent<Transform>();
-        droneCamera = drone.GetComponent<Camera>();
+        droneCamera = drone.GetComponentInChildren<Camera>();
+        cameraFollowPlayerScript = drone.playerTransform.GetComponent<CameraFollowPlayer>();
+        playerControllerScript = drone.playerTransform.GetComponent<PlayerController>();
 
         // Set Variables 
         currentSpeed = startSpeed;
@@ -45,6 +51,8 @@ public class DronePlayerState : IDroneState
 
     public void Enter()
     {
+        cameraFollowPlayerScript.enabled = false;
+        playerControllerScript.enabled = false;
         mainCamera = Camera.main;
         mainCamera.enabled = false;
         droneCamera.enabled = true;
@@ -55,34 +63,48 @@ public class DronePlayerState : IDroneState
 
     public void Execute()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
-
-        if (currentSpeed < maxSpeed)
-        {
-            currentSpeed = Mathf.Min(currentSpeed + acceleration * Time.deltaTime, maxSpeed);
-        }
-
-        // Calculate forward and strafing movement
-        Vector3 forwardMovement = droneTransform.forward * currentSpeed * Time.deltaTime * moveVertical;
-        Vector3 strafingMovement = droneTransform.right * currentSpeed * Time.deltaTime * moveHorizontal;
-
-        // Apply movement
-        droneTransform.position += forwardMovement + strafingMovement;
-
-        // Apply tilt based on movement
-        ApplyTilt(moveHorizontal, moveVertical);
-
-        // Rotate based on mouse input
-        RotateCamera();
+        DroneMovement();
     }
 
     public void Exit()
     {
         mainCamera.enabled = true;
         droneCamera.enabled = false;
+
+        cameraFollowPlayerScript.enabled = true;
+        playerControllerScript.enabled = true;
     }
 
+    private void DroneMovement()
+    {
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
+        float moveUp = Input.GetKey(KeyCode.Space) ? 1 : 0; // Ascend when space is pressed
+        float moveDown = Input.GetKey(KeyCode.LeftShift) ? -1 : 0; // Decend when shift is pressed
+        float verticalSpeed = startSpeed / 2;
+
+        if (currentSpeed < maxSpeed)
+        {
+            currentSpeed = Mathf.Min(currentSpeed + acceleration * Time.deltaTime, maxSpeed);
+        }
+
+        // Calculate horizontal movement
+        Vector3 horizontalMovement = droneTransform.right * moveHorizontal + droneTransform.forward * moveVertical;
+        horizontalMovement.y = 0; // Ensure horizontal movement is parallel to the ground
+        horizontalMovement.Normalize();
+
+        // Apply horizontal movement
+        droneTransform.position += horizontalMovement * currentSpeed * Time.deltaTime;
+
+        // Apply vertical movement
+        droneTransform.position += Vector3.up * (moveUp + moveDown) * verticalSpeed * Time.deltaTime;
+
+        // Apply tilt based on horizontal movement only
+        ApplyTilt(moveHorizontal, moveVertical);
+
+        // Rotate based on mouse input
+        RotateCamera();
+    }
     private void ApplyTilt(float moveHorizontal, float moveVertical)
     {
         float tiltAroundZ = moveHorizontal * -tiltIntensity; // Roll tilt for horizontal movement
