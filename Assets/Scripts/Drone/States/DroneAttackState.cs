@@ -152,6 +152,7 @@ public class DroneAttackState : IDroneState
     {
         foreach (LineRenderer renderer in laserRenderers)
         {
+            DrawRay(renderer, Vector3.zero, Vector3.zero);
             renderer.enabled = false;
         }
     }

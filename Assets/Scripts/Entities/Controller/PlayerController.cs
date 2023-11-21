@@ -1,13 +1,15 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] LayerMask groundLayer;
-    [SerializeField] float groundCheckDistance;
-    [SerializeField] float speed = 5f;
-    [SerializeField] float jumpForce = 5f;
-    [SerializeField] float runMultiplier = 1.5f;
+    private LayerMask groundLayer;
+    private float groundCheckDistance;
+    private float speed;
+    private float jumpForce;
+    private float sprintMultiplier;
+    private int playerLevel;
 
     [HideInInspector] public bool isGrounded = true;
     [HideInInspector] public bool isRunning = false;
@@ -15,9 +17,35 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody rb;
 
+    [SerializeField] private PlayerSO player;
+    [SerializeField] private HealthSystem healthSystem;
+    [SerializeField] private DamageSystem damageSystem;
+
+    public UnityEvent<int> OnLevelUp = new UnityEvent<int>();
+
+
+    private void Awake()
+    {
+        if (healthSystem != null)
+        {
+            healthSystem.Initialize(player.playerHealth, player.playerLevel, player.healthCurve, this, null);
+        }
+
+        if (damageSystem != null)
+        {
+            damageSystem.Initialize(player.playerHealth, player.playerLevel, player.damageCurve, this, null);
+        }
+    }
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        groundLayer = player.groundLayer;
+        groundCheckDistance = player.groundCheckDistance;
+        speed = player.playerSpeed;
+        jumpForce = player.playerJumpForce;
+        sprintMultiplier = player.playerSprintMultiplier;
+        playerLevel = player.playerLevel;
     }
 
     private void Update()
@@ -27,12 +55,21 @@ public class PlayerController : MonoBehaviour
         Jump();
     }
 
+    public void SubscribeToLevelUp(UnityAction<int> callback)
+    {
+        OnLevelUp.AddListener(callback);
+    }
+    public void LevelUp()
+    {
+        playerLevel++;
+        OnLevelUp.Invoke(playerLevel);
+    }
     void Move()
     {
         float moveZ = Input.GetAxis("Vertical");
 
         // Calculate the current speed based on whether the player is running or walking
-        float currentSpeed = (Input.GetKey(KeyCode.LeftShift) && moveZ > 0) ? speed * runMultiplier : speed;
+        float currentSpeed = (Input.GetKey(KeyCode.LeftShift) && moveZ > 0) ? speed * sprintMultiplier : speed;
 
         // Determine the forward movement direction based on the camera's forward direction
         Vector3 forwardMovement = Camera.main.transform.forward * moveZ;

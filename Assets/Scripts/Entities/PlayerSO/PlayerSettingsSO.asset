@@ -9,32 +9,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f63b77655cf94b444960a99fbea2891f, type: 3}
-  m_Name: Creature
+  m_Script: {fileID: 11500000, guid: 50dec946b272298488f5346731e90be8, type: 3}
+  m_Name: PlayerSettingsSO
   m_EditorClassIdentifier: 
-  enemyName: "J\xFCrgen"
-  enemyLevel: 1
-  enemyHealth: 100
-  enemyDamage: 5
-  enemySpeed: 2
-  enemyDamageType: 0
+  playerName: Player
+  playerLevel: 1
+  playerHealth: 100
+  playerDamage: 5
+  playerSpeed: 5
+  playerSprintMultiplier: 1.5
+  playerJumpForce: 4
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  groundCheckDistance: 0.3
+  playerDamageType: 0
   healthCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 1
+      time: 0
       value: 1
-      inSlope: 0.09090909
-      outSlope: 0.09090909
+      inSlope: 0.99
+      outSlope: 0.99
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 100
-      value: 10
-      inSlope: 0.09090909
-      outSlope: 0.09090909
+      value: 100
+      inSlope: 0.99
+      outSlope: 0.99
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -46,19 +52,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 1
+      time: 0
       value: 1
-      inSlope: 0.09090909
-      outSlope: 0.09090909
+      inSlope: 0.99
+      outSlope: 0.99
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 100
-      value: 10
-      inSlope: 0.09090909
-      outSlope: 0.09090909
+      value: 100
+      inSlope: 0.99
+      outSlope: 0.99
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
