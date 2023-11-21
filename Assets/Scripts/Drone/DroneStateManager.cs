@@ -68,19 +68,16 @@ public class DroneStateManager : MonoBehaviour
         _playerState = new DronePlayerState(this);
         SetState(_hoverState);
     }
-
-    private void FixedUpdate()
+    private void Update()
     {
-        _currentState.Execute();
-
         if (Input.GetKeyDown(KeyCode.O))
         {
             SetState(_currentState != _observeState ? _observeState : _hoverState);
         }
-        
+
         if (Input.GetKeyDown(KeyCode.P))
         {
-            if(_currentState != _playerState)
+            if (_currentState != _playerState)
             {
                 SetState(_playerState);
             }
@@ -96,6 +93,11 @@ public class DroneStateManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void FixedUpdate()
+    {
+        _currentState.Execute();
     }
 
     private void Setup()

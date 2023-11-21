@@ -104,6 +104,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -5076484507258936684, guid: 8a91961251fc05444adabf996959fb2f, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: -4999088201633142198, guid: 8a91961251fc05444adabf996959fb2f, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -375,19 +379,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 177dab345906b054e97db941b21cda5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  groundCheckDistance: 0.3
-  speed: 5
-  jumpForce: 4
-  runMultiplier: 1.5
   isGrounded: 1
   isRunning: 0
   isWalking: 0
   player: {fileID: 11400000, guid: 2b08c6ae84adbf34495d9a309ac908af, type: 2}
   healthSystem: {fileID: 429627478843339931}
   damageSystem: {fileID: 3822393252553648703}
+  OnLevelUp:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1973471282233469448
 MonoBehaviour:
   m_ObjectHideFlags: 0
