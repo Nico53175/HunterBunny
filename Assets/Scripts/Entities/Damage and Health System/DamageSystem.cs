@@ -23,12 +23,6 @@ public class DamageSystem : MonoBehaviour
         currentDamage = GetDamageAtLevel();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public float GetDamageAtLevel()
     {
         return baseDamage * damageCurve.Evaluate(level);
@@ -44,6 +38,7 @@ public class DamageSystem : MonoBehaviour
     {
         target.TakeDamage(currentDamage);
     }
+
     public void ApplyDamageOverTime(HealthSystem target, float damagePerTick, float duration, float tickInterval)
     {
         StartCoroutine(DamageOverTimeCoroutine(target, damagePerTick, duration, tickInterval));

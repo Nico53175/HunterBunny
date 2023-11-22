@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DroneStateObserveSettings", menuName = "Drones/Drone Observe State Settings", order = 3)]

@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
@@ -23,18 +22,6 @@ public class HealthSystem : MonoBehaviour
 
         maxHealth = GetHealthAtLevel();
         currentHealth = maxHealth;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void TakeDamage(float damage)

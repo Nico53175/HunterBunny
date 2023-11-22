@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DroneAttackState : IDroneState
@@ -146,6 +145,7 @@ public class DroneAttackState : IDroneState
             }
         }
     }
+
     private bool RaycastEnemy(Vector3 start, Vector3 end, float length, out bool enemyDestroyed)
     {
         enemyDestroyed = false;
@@ -168,7 +168,6 @@ public class DroneAttackState : IDroneState
         }
         return false;
     }
-
 
     private void DisableLasers()
     {
