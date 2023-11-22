@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Enemy Settings", menuName = "Entities/Basic Enemy Settings", order = 2)]
+[CreateAssetMenu(fileName = "Enemy Settings", menuName = "Entities/Basic Enemy Settings", order = 3)]
 public class EnemySO : ScriptableObject
 {
     public string enemyName;

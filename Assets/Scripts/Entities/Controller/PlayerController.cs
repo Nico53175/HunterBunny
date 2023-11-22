@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IEntityEventSubscriber
 {
     private LayerMask groundLayer;
     private float groundCheckDistance;
@@ -23,17 +23,16 @@ public class PlayerController : MonoBehaviour
 
     public UnityEvent<int> OnLevelUp = new UnityEvent<int>();
 
-
     private void Awake()
     {
         if (healthSystem != null)
         {
-            healthSystem.Initialize(player.playerHealth, player.playerLevel, player.healthCurve, this, null);
+            healthSystem.Initialize(player.playerHealth, player.playerLevel, player.healthCurve, this);
         }
 
         if (damageSystem != null)
         {
-            damageSystem.Initialize(player.playerHealth, player.playerLevel, player.damageCurve, this, null);
+            damageSystem.Initialize(player.playerHealth, player.playerLevel, player.damageCurve, this);
         }
     }
 
@@ -50,6 +49,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        LevelUp();
         CheckIfGrounded();
         Move();
         Jump();
@@ -59,11 +59,18 @@ public class PlayerController : MonoBehaviour
     {
         OnLevelUp.AddListener(callback);
     }
+
+    public void UnsubscribeFromLevelUp(UnityAction<int> callback)
+    {
+        OnLevelUp.RemoveListener(callback);
+    }
+
     public void LevelUp()
     {
         playerLevel++;
         OnLevelUp.Invoke(playerLevel);
     }
+
     void Move()
     {
         float moveZ = Input.GetAxis("Vertical");

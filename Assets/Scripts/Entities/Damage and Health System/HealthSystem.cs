@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
@@ -8,26 +7,26 @@ public class HealthSystem : MonoBehaviour
     private AnimationCurve healthCurve;
     private float currentHealth;
 
-    public void Initialize(float health, int level, AnimationCurve healthCurve, PlayerController playerController, EnemyController enemyController)
+    private IEntityEventSubscriber entityEventSubscriber;
+
+    public void Initialize(float health, int level, AnimationCurve healthCurve, IEntityEventSubscriber entityEventSubscriber)
     {
         this.health = health;
         this.level = level;
         this.healthCurve = healthCurve;
+        this.entityEventSubscriber = entityEventSubscriber;
+        if (entityEventSubscriber != null)
+        {
+            entityEventSubscriber.SubscribeToLevelUp(OnLevelUp);
+        }
 
-        if(playerController != null)
-        {
-            playerController.SubscribeToLevelUp(OnLevelUp);
-        }
-        if(enemyController != null)
-        {
-            enemyController.SubscribeToLevelUp(OnLevelUp);
-        }
+        currentHealth = GetHealthAtLevel();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth = GetHealthAtLevel();
+
     }
 
     // Update is called once per frame
@@ -49,6 +48,9 @@ public class HealthSystem : MonoBehaviour
 
     private void OnDestroy()
     {
-        // Unsubscripe Event  
+        if (entityEventSubscriber != null)
+        {
+            entityEventSubscriber.UnsubscribeFromLevelUp(OnLevelUp);
+        }
     }
 }

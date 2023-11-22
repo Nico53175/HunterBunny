@@ -1,24 +1,29 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour, IEntityEventSubscriber
 {
     private Transform player;
     [SerializeField] private EnemySO enemy;
     [SerializeField] private HealthSystem healthSystem;
     [SerializeField] private DamageSystem damageSystem;
 
+    private int enemyLevel;
+
     public UnityEvent<int> OnLevelUp = new UnityEvent<int>();
+    
     private void Awake()
     {
+        enemyLevel = enemy.enemyLevel;
+
         if (healthSystem != null)
         {
-            healthSystem.Initialize(enemy.enemyHealth, enemy.enemyLevel, enemy.healthCurve, null, this);
+            healthSystem.Initialize(enemy.enemyHealth, enemy.enemyLevel, enemy.healthCurve, this);
         }
 
         if (damageSystem != null)
         {
-            damageSystem.Initialize(enemy.enemyDamage, enemy.enemyLevel, enemy.damageCurve, null, this);
+            damageSystem.Initialize(enemy.enemyDamage, enemy.enemyLevel, enemy.damageCurve, this);
         }
     }
 
@@ -40,9 +45,14 @@ public class EnemyController : MonoBehaviour
         OnLevelUp.AddListener(callback);
     }
 
-    private void OnDestroy()
+    public void UnsubscribeFromLevelUp(UnityAction<int> callback)
     {
-        // Play death animation 
-        // Particle System
+        OnLevelUp.RemoveListener(callback);
+    }
+
+    public void LevelUp()
+    {
+        enemyLevel++;
+        OnLevelUp.Invoke(enemyLevel);
     }
 }

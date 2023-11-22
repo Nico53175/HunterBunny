@@ -1,12 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
-using UnityEngine.XR;
-using static DroneController;
 
 public class DroneStateManager : MonoBehaviour
 {
+    // States
     private IDroneState _currentState;
     private IDroneState _hoverState;
     private IDroneState _attackState;
@@ -144,7 +141,6 @@ public class DroneStateManager : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the object that entered the trigger has an "Enemy" tag (or any other criteria you set for enemies)
         if (other.CompareTag("Enemy"))
         {
             detectedEnemies.Add(other.transform);
@@ -156,7 +152,6 @@ public class DroneStateManager : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        // Remove the object from the detectedEnemies list if it leaves the trigger area
         if (other.CompareTag("Enemy"))
         {
             detectedEnemies.Remove(other.transform);
