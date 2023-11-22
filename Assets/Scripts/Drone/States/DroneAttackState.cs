@@ -97,9 +97,9 @@ public class DroneAttackState : IDroneState
     private void ProcessAttack()
     {        
         Transform enemy = GetClosestDetectedEnemy();
-        enemyHealthSystem = enemy.GetComponent<HealthSystem>();
         if (enemy != null)
         {
+            enemyHealthSystem = enemy.GetComponent<HealthSystem>();
             PerformAttack(enemy);
         }
     }
@@ -117,51 +117,19 @@ public class DroneAttackState : IDroneState
         droneTransform.rotation = Quaternion.Lerp(droneTransform.rotation, desiredRotation, rotationLerpSpeedAttack * Time.deltaTime);
     }
 
-    //private void AttackEnemy(Transform enemy)
-    //{
-    //    float attackRayLength = Vector3.Distance(droneTransform.position, enemy.position);
-    //    foreach (var laserRenderer in laserRenderers)
-    //    {
-    //        Vector3 laserStartPosition = laserRenderer.transform.position;
-    //        Vector3 laserEndPosition = laserStartPosition + droneTransform.forward * attackRayLength;
-
-    //        if (RaycastEnemy(laserStartPosition, laserEndPosition, attackRayLength))
-    //        {
-    //            ReloadTimer.StartTimer(reloadTimerId, reloadTimer); // Start Reload Timer
-
-    //        }
-    //        else
-    //        {
-    //            DrawRay(laserRenderer, laserStartPosition, laserEndPosition);
-    //        }
-    //    }
-    //}
-
-    //private bool RaycastEnemy(Vector3 start, Vector3 end, float length)
-    //{
-    //    if (Physics.Raycast(start, droneTransform.forward, out RaycastHit hit, length))
-    //    {
-
-    //        if (hit.transform.gameObject.tag == "Enemy")
-    //        {
-    //            Debug.Log("Hitting Enemy");
-    //            //drone.DestroyEnemy(hit.transform.gameObject);
-    //            //detectedEnemies.Remove(hit.transform);
-
-    //            return true;
-    //        }
-    //    }
-    //    return false;
-    //}
     private void AttackEnemy(Transform enemy)
     {
-        float attackRayLength = Vector3.Distance(droneTransform.position, enemy.position);
+        Vector3 enemyCenter = enemy.GetComponent<Collider>().bounds.center;
+
         foreach (var laserRenderer in laserRenderers)
         {
             Vector3 laserStartPosition = laserRenderer.transform.position;
-            Vector3 laserEndPosition = laserStartPosition + new Vector3(0, 0.5f, 0) + droneTransform.forward * attackRayLength;
+
+            // Update laserEndPosition to point towards the enemy's center
+            Vector3 laserEndPosition = enemyCenter;
 
             bool enemyDestroyed;
+            float attackRayLength = Vector3.Distance(laserStartPosition, laserEndPosition);
             if (RaycastEnemy(laserStartPosition, laserEndPosition, attackRayLength, out enemyDestroyed))
             {
                 if (enemyDestroyed)
@@ -178,7 +146,6 @@ public class DroneAttackState : IDroneState
             }
         }
     }
-
     private bool RaycastEnemy(Vector3 start, Vector3 end, float length, out bool enemyDestroyed)
     {
         enemyDestroyed = false;
