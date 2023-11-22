@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DamageSystem : MonoBehaviour
 {
-    private float damage;
+    private float baseDamage;
     private int level;
     private AnimationCurve damageCurve;
     private float currentDamage = 0;
@@ -11,7 +11,7 @@ public class DamageSystem : MonoBehaviour
     private IEntityEventSubscriber entityEventSubscriber;
     public void Initialize(float damage, int level, AnimationCurve damageCurve, IEntityEventSubscriber entityEventSubscriber)
     {
-        this.damage = damage;
+        this.baseDamage = damage;
         this.level = level;
         this.damageCurve = damageCurve;
         this.entityEventSubscriber = entityEventSubscriber;
@@ -31,7 +31,7 @@ public class DamageSystem : MonoBehaviour
 
     public float GetDamageAtLevel()
     {
-        return damage * damageCurve.Evaluate(level);
+        return baseDamage * damageCurve.Evaluate(level);
     }
 
     public void OnLevelUp(int newLevel)
@@ -40,19 +40,22 @@ public class DamageSystem : MonoBehaviour
         currentDamage = GetDamageAtLevel();
     }
 
-    public void ApplyDamageOverTime(float damagePerTick, float duration, float tickInterval)
+    public void ApplyDamage(HealthSystem target)
     {
-        StartCoroutine(DamageOverTimeCoroutine(damagePerTick, duration, tickInterval));
+        target.TakeDamage(currentDamage);
+    }
+    public void ApplyDamageOverTime(HealthSystem target, float damagePerTick, float duration, float tickInterval)
+    {
+        StartCoroutine(DamageOverTimeCoroutine(target, damagePerTick, duration, tickInterval));
     }
 
-    private IEnumerator DamageOverTimeCoroutine(float damagePerTick, float duration, float tickInterval)
+    private IEnumerator DamageOverTimeCoroutine(HealthSystem target, float damagePerTick, float duration, float tickInterval)
     {
         float timePassed = 0;
 
         while (timePassed < duration)
         {
-            // Apply damage
-            ApplyDamage(damagePerTick);
+            target.TakeDamage(damagePerTick);
 
             // Wait for the next tick
             yield return new WaitForSeconds(tickInterval);
@@ -60,11 +63,6 @@ public class DamageSystem : MonoBehaviour
             // Update the time passed
             timePassed += tickInterval;
         }
-    }
-    private void ApplyDamage(float damage)
-    {
-        // Apply damage to the health system, enemy, player, etc.
-        Debug.Log($"Applying {damage} damage.");
     }
 
     private void OnDestroy()

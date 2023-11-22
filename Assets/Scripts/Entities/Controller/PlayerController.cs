@@ -27,12 +27,12 @@ public class PlayerController : MonoBehaviour, IEntityEventSubscriber
     {
         if (healthSystem != null)
         {
-            healthSystem.Initialize(player.playerHealth, player.playerLevel, player.healthCurve, this);
+            healthSystem.Initialize(player.health, player.level, player.healthCurve, this);
         }
 
         if (damageSystem != null)
         {
-            damageSystem.Initialize(player.playerHealth, player.playerLevel, player.damageCurve, this);
+            damageSystem.Initialize(player.health, player.level, player.damageCurve, this);
         }
     }
 
@@ -41,15 +41,14 @@ public class PlayerController : MonoBehaviour, IEntityEventSubscriber
         rb = GetComponent<Rigidbody>();
         groundLayer = player.groundLayer;
         groundCheckDistance = player.groundCheckDistance;
-        speed = player.playerSpeed;
-        jumpForce = player.playerJumpForce;
-        sprintMultiplier = player.playerSprintMultiplier;
-        playerLevel = player.playerLevel;
+        speed = player.speed;
+        jumpForce = player.jumpForce;
+        sprintMultiplier = player.sprintMultiplier;
+        playerLevel = player.level;
     }
 
     private void Update()
     {
-        LevelUp();
         CheckIfGrounded();
         Move();
         Jump();

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Creature
   m_EditorClassIdentifier: 
   enemyName: Creature
-  enemyLevel: 1
-  enemyHealth: 100
-  enemyDamage: 5
-  enemySpeed: 2
-  enemyDamageType: 1
+  level: 5
+  health: 200
+  damage: 5
+  speed: 3
+  damageType: 1
   healthCurve:
     serializedVersion: 2
     m_Curve:

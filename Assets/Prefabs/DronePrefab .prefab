@@ -511,6 +511,9 @@ GameObject:
   - component: {fileID: 9218594172023730763}
   - component: {fileID: 2173702902301290583}
   - component: {fileID: 6718182019711635637}
+  - component: {fileID: 720068973899724691}
+  - component: {fileID: 9022793740473154831}
+  - component: {fileID: 1762274825887981520}
   m_Layer: 6
   m_Name: Drone
   m_TagString: Drone
@@ -614,11 +617,54 @@ MonoBehaviour:
   playerTransform: {fileID: 0}
   currentSpeed: 0
   visionRadiusCollider: {fileID: 0}
+  droneSettings: {fileID: 11400000, guid: 8fdd0ef3f431a0d4d979e1760a769513, type: 2}
   droneHoverSettings: {fileID: 11400000, guid: 2b6ec4a2cf33a9248bdbe8d6d7efdca7, type: 2}
   droneAttackSettings: {fileID: 11400000, guid: e7db392026ca7cd4a835927f80a4f6ee, type: 2}
   droneObserveSettings: {fileID: 11400000, guid: 418629834d1d41247a05d1c4cc7fc425, type: 2}
   dronePlayerSettings: {fileID: 11400000, guid: e45aad9c82afefe49b8b147179eb5402, type: 2}
   detectedEnemies: []
+--- !u!114 &720068973899724691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648191163438710898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be2a096ed6309e14eb7b54818cba36c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drone: {fileID: 11400000, guid: 8fdd0ef3f431a0d4d979e1760a769513, type: 2}
+  healthSystem: {fileID: 9022793740473154831}
+  damageSystem: {fileID: 1762274825887981520}
+  OnLevelUp:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &9022793740473154831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648191163438710898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef7783627e4ab5b48bc5a1e5e5c2f639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1762274825887981520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 648191163438710898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c7469c577223dc40b1b27f3876f4450, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &896371520556574935
 GameObject:
   m_ObjectHideFlags: 0

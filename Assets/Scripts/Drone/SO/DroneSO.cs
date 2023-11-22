@@ -4,9 +4,9 @@ using UnityEngine;
 public class DroneSO : ScriptableObject
 {
     public string droneName;
-    public int droneLevel;
-    public float droneHealth;
-    public float droneDamage;
+    public int level;
+    public float health;
+    public float damage;
 
     public AnimationCurve healthCurve;
     public AnimationCurve damageCurve;

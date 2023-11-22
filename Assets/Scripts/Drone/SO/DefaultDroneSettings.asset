@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: DefaultDroneSettings
   m_EditorClassIdentifier: 
   droneName: Drone
-  droneLevel: 1
-  droneHealth: 150
-  droneDamage: 2
+  level: 1
+  health: 100
+  damage: 5
   healthCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
+      time: 1
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -44,8 +44,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
+      time: 1
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

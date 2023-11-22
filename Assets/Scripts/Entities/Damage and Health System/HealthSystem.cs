@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class HealthSystem : MonoBehaviour
@@ -5,8 +6,8 @@ public class HealthSystem : MonoBehaviour
     private float health;
     private int level;
     private AnimationCurve healthCurve;
+    private float maxHealth;
     private float currentHealth;
-
     private IEntityEventSubscriber entityEventSubscriber;
 
     public void Initialize(float health, int level, AnimationCurve healthCurve, IEntityEventSubscriber entityEventSubscriber)
@@ -20,7 +21,8 @@ public class HealthSystem : MonoBehaviour
             entityEventSubscriber.SubscribeToLevelUp(OnLevelUp);
         }
 
-        currentHealth = GetHealthAtLevel();
+        maxHealth = GetHealthAtLevel();
+        currentHealth = maxHealth;
     }
 
     // Start is called before the first frame update
@@ -35,6 +37,18 @@ public class HealthSystem : MonoBehaviour
         
     }
 
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        Debug.Log($"Damage: {damage}, new Health: {currentHealth}");
+    }
+
+    public bool IsEntityDestroyed()
+    {
+        bool isDestroyed = currentHealth < 0 ? true : false;
+        return isDestroyed;
+    }
+
     public float GetHealthAtLevel()
     {
         return health * healthCurve.Evaluate(level);
@@ -43,7 +57,7 @@ public class HealthSystem : MonoBehaviour
     public void OnLevelUp(int newLevel)
     {
         level = newLevel;
-        currentHealth = GetHealthAtLevel();
+        maxHealth = GetHealthAtLevel();
     }
 
     private void OnDestroy()

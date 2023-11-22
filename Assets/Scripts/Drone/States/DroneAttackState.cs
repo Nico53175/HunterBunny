@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DroneAttackState : IDroneState
@@ -18,7 +19,8 @@ public class DroneAttackState : IDroneState
     // Variables 
     private const string reloadTimerId = "ReloadTimer";
     bool areRendererEnabled;
-
+    HealthSystem enemyHealthSystem;
+    DamageSystem droneDamageSystem;
     public DroneAttackState(DroneStateManager drone,List<LineRenderer> laserRenderers)
     {
         this.drone = drone;
@@ -31,6 +33,7 @@ public class DroneAttackState : IDroneState
 
         // Get needed Components
         droneTransform = drone.GetComponent<Transform>();
+        droneDamageSystem = drone.GetComponent<DamageSystem>();
     }
 
     public void Enter()
@@ -94,6 +97,7 @@ public class DroneAttackState : IDroneState
     private void ProcessAttack()
     {        
         Transform enemy = GetClosestDetectedEnemy();
+        enemyHealthSystem = enemy.GetComponent<HealthSystem>();
         if (enemy != null)
         {
             PerformAttack(enemy);
@@ -113,17 +117,60 @@ public class DroneAttackState : IDroneState
         droneTransform.rotation = Quaternion.Lerp(droneTransform.rotation, desiredRotation, rotationLerpSpeedAttack * Time.deltaTime);
     }
 
+    //private void AttackEnemy(Transform enemy)
+    //{
+    //    float attackRayLength = Vector3.Distance(droneTransform.position, enemy.position);
+    //    foreach (var laserRenderer in laserRenderers)
+    //    {
+    //        Vector3 laserStartPosition = laserRenderer.transform.position;
+    //        Vector3 laserEndPosition = laserStartPosition + droneTransform.forward * attackRayLength;
+
+    //        if (RaycastEnemy(laserStartPosition, laserEndPosition, attackRayLength))
+    //        {
+    //            ReloadTimer.StartTimer(reloadTimerId, reloadTimer); // Start Reload Timer
+
+    //        }
+    //        else
+    //        {
+    //            DrawRay(laserRenderer, laserStartPosition, laserEndPosition);
+    //        }
+    //    }
+    //}
+
+    //private bool RaycastEnemy(Vector3 start, Vector3 end, float length)
+    //{
+    //    if (Physics.Raycast(start, droneTransform.forward, out RaycastHit hit, length))
+    //    {
+
+    //        if (hit.transform.gameObject.tag == "Enemy")
+    //        {
+    //            Debug.Log("Hitting Enemy");
+    //            //drone.DestroyEnemy(hit.transform.gameObject);
+    //            //detectedEnemies.Remove(hit.transform);
+
+    //            return true;
+    //        }
+    //    }
+    //    return false;
+    //}
     private void AttackEnemy(Transform enemy)
     {
         float attackRayLength = Vector3.Distance(droneTransform.position, enemy.position);
         foreach (var laserRenderer in laserRenderers)
         {
             Vector3 laserStartPosition = laserRenderer.transform.position;
-            Vector3 laserEndPosition = laserStartPosition + droneTransform.forward * attackRayLength;
+            Vector3 laserEndPosition = laserStartPosition + new Vector3(0, 0.5f, 0) + droneTransform.forward * attackRayLength;
 
-            if (RaycastEnemy(laserStartPosition, laserEndPosition, attackRayLength))
+            bool enemyDestroyed;
+            if (RaycastEnemy(laserStartPosition, laserEndPosition, attackRayLength, out enemyDestroyed))
             {
-                ReloadTimer.StartTimer(reloadTimerId, reloadTimer); // Start Reload Timer
+                if (enemyDestroyed)
+                {
+                    Debug.Log("Enemy Destroyed");
+                    enemyHealthSystem = null;
+                    drone.DestroyEnemy(enemy.transform.gameObject);
+                    ReloadTimer.StartTimer(reloadTimerId, reloadTimer); // Start Reload Timer
+                }
             }
             else
             {
@@ -132,19 +179,29 @@ public class DroneAttackState : IDroneState
         }
     }
 
-    private bool RaycastEnemy(Vector3 start, Vector3 end, float length)
+    private bool RaycastEnemy(Vector3 start, Vector3 end, float length, out bool enemyDestroyed)
     {
+        enemyDestroyed = false;
+
         if (Physics.Raycast(start, droneTransform.forward, out RaycastHit hit, length))
         {
-            if (hit.transform.gameObject.tag == "Enemy")
+            if (hit.transform.CompareTag("Enemy"))
             {
-                drone.DestroyEnemy(hit.transform.gameObject);
-                detectedEnemies.Remove(hit.transform);
+                Debug.Log("Hitting Enemy");
+
+                // Apply damage to the enemy               
+                if (enemyHealthSystem != null)
+                {
+                    droneDamageSystem.ApplyDamage(enemyHealthSystem);
+                    enemyDestroyed = enemyHealthSystem.IsEntityDestroyed();
+                }
+
                 return true;
             }
         }
         return false;
     }
+
 
     private void DisableLasers()
     {

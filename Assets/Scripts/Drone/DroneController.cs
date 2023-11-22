@@ -12,16 +12,16 @@ public class DroneController : MonoBehaviour, IEntityEventSubscriber
     public UnityEvent<int> OnLevelUp = new UnityEvent<int>();
     private void Awake()
     {
-        droneLevel = drone.droneLevel;
+        droneLevel = drone.level;
 
         if (healthSystem != null)
         {
-            healthSystem.Initialize(drone.droneHealth, drone.droneLevel, drone.healthCurve, this);
+            healthSystem.Initialize(drone.health, drone.level, drone.healthCurve, this);
         }
 
         if (damageSystem != null)
         {
-            damageSystem.Initialize(drone.droneDamage, drone.droneLevel, drone.damageCurve, null);
+            damageSystem.Initialize(drone.damage, drone.level, drone.damageCurve, null);
         }
     }
 

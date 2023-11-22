@@ -16,6 +16,7 @@ public class DroneStateManager : MonoBehaviour
     // Drone Settings 
     [HideInInspector] public float currentSpeed;
     [HideInInspector] public SphereCollider visionRadiusCollider;
+    [SerializeField] public DroneSO droneSettings;
     [SerializeField] public DroneStateHoverSO droneHoverSettings;
     [SerializeField] public DroneStateAttackSO droneAttackSettings;
     [SerializeField] public DroneStateObserveSO droneObserveSettings;
@@ -137,6 +138,10 @@ public class DroneStateManager : MonoBehaviour
     }
     public void DestroyEnemy(GameObject enemy)
     {
+        if (detectedEnemies.Contains(enemy.transform))
+        {
+            detectedEnemies.Remove(enemy.transform);
+        }
         Destroy(enemy);
     }
     private void OnTriggerEnter(Collider other)

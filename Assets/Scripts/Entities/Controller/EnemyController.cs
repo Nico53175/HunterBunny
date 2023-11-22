@@ -14,16 +14,16 @@ public class EnemyController : MonoBehaviour, IEntityEventSubscriber
     
     private void Awake()
     {
-        enemyLevel = enemy.enemyLevel;
+        enemyLevel = enemy.level;
 
         if (healthSystem != null)
         {
-            healthSystem.Initialize(enemy.enemyHealth, enemy.enemyLevel, enemy.healthCurve, this);
+            healthSystem.Initialize(enemy.health, enemy.level, enemy.healthCurve, this);
         }
 
         if (damageSystem != null)
         {
-            damageSystem.Initialize(enemy.enemyDamage, enemy.enemyLevel, enemy.damageCurve, this);
+            damageSystem.Initialize(enemy.damage, enemy.level, enemy.damageCurve, this);
         }
     }
 
@@ -37,7 +37,7 @@ public class EnemyController : MonoBehaviour, IEntityEventSubscriber
     void Update()
     {
         transform.LookAt(player);
-        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, enemy.enemySpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, enemy.speed * Time.deltaTime);
     }
 
     public void SubscribeToLevelUp(UnityAction<int> callback)

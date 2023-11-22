@@ -4,11 +4,11 @@ using UnityEngine;
 public class EnemySO : ScriptableObject
 {
     public string enemyName;
-    public int enemyLevel;
-    public float enemyHealth;
-    public float enemyDamage;
-    public float enemySpeed;
-    public DamageType enemyDamageType;
+    public int level;
+    public float health;
+    public float damage;
+    public float speed;
+    public DamageType damageType;
 
     public AnimationCurve healthCurve;
     public AnimationCurve damageCurve;

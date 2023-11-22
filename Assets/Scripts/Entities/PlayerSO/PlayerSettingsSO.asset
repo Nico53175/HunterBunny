@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: PlayerSettingsSO
   m_EditorClassIdentifier: 
   playerName: Player
-  playerLevel: 1
-  playerHealth: 100
-  playerDamage: 5
-  playerSpeed: 5
-  playerSprintMultiplier: 1.5
-  playerJumpForce: 4
+  level: 1
+  health: 100
+  damage: 5
+  speed: 5
+  sprintMultiplier: 1.5
+  jumpForce: 4
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   groundCheckDistance: 0.3
-  playerDamageType: 0
+  damageType: 0
   healthCurve:
     serializedVersion: 2
     m_Curve:

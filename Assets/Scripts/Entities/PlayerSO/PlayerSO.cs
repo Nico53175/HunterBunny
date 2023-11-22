@@ -4,15 +4,15 @@ using UnityEngine;
 public class PlayerSO : ScriptableObject
 {
     public string playerName;
-    public int playerLevel;
-    public float playerHealth;
-    public float playerDamage;
-    public float playerSpeed;
-    public float playerSprintMultiplier;
-    public float playerJumpForce;
+    public int level;
+    public float health;
+    public float damage;
+    public float speed;
+    public float sprintMultiplier;
+    public float jumpForce;
     public LayerMask groundLayer;
     public float groundCheckDistance;
-    public DamageType playerDamageType;
+    public DamageType damageType;
 
     public AnimationCurve healthCurve;
     public AnimationCurve damageCurve;
