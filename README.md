@@ -17,7 +17,8 @@ UI Representation: Create UI elements to represent the inventory in the game, al
 - Drop Table: defines what items can drop from which monsters, including drop rates.
 - Randomized Drops: Use the drop table to determine what dropped.
 - Randomization mechanism 
-5. Loot Collection: Collect dropped items, adding them to their inventory.
+5. Loot Collection
+- Collect dropped items, adding them to their inventory.
 6. Crafting System
 - Crafting Recipes: Define crafting recipes, including required items and quantities.
 - Crafting Interface: Create a UI where players can select items to craft and view required materials.
