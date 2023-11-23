@@ -557,8 +557,9 @@ GameObject:
   - component: {fileID: 7241604527895951021}
   - component: {fileID: 5685526414264159276}
   - component: {fileID: 1546605446348035368}
-  - component: {fileID: 8877437754859744380}
+  - component: {fileID: 8483481286434661104}
   - component: {fileID: 3130000789219605120}
+  - component: {fileID: 8877437754859744380}
   - component: {fileID: 2882275352599589892}
   m_Layer: 7
   m_Name: 'Parasite '
@@ -685,7 +686,7 @@ MonoBehaviour:
   OnLevelUp:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8877437754859744380
+--- !u!114 &8483481286434661104
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -694,9 +695,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2807864557579586226}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3947d048b54214840b53c5b2418276d3, type: 3}
+  m_Script: {fileID: 11500000, guid: 0984cfa0b834f1344bf9cf4fe76e8208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerTransform: {fileID: 0}
+  enemyIdleSettings: {fileID: 11400000, guid: 1911374f61e556e4db100a95747e3e18, type: 2}
+  enemyAttackSettings: {fileID: 11400000, guid: e54e43003f4777040bbca000ebfd72cd, type: 2}
 --- !u!114 &3130000789219605120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -707,6 +711,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef7783627e4ab5b48bc5a1e5e5c2f639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8877437754859744380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2807864557579586226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3947d048b54214840b53c5b2418276d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2882275352599589892

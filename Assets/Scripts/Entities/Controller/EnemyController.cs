@@ -3,7 +3,6 @@ using UnityEngine.Events;
 
 public class EnemyController : MonoBehaviour, IEntityEventSubscriber
 {
-    private Transform player;
     [SerializeField] private EnemySO enemy;
     [SerializeField] private HealthSystem healthSystem;
     [SerializeField] private DamageSystem damageSystem;
@@ -30,14 +29,13 @@ public class EnemyController : MonoBehaviour, IEntityEventSubscriber
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;        
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(player);
-        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, enemy.speed * Time.deltaTime);
+        
     }
 
     public void SubscribeToLevelUp(UnityAction<int> callback)

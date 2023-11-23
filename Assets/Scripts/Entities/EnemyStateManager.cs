@@ -8,7 +8,7 @@ public class EnemyStateManager : MonoBehaviour
     private IEnemyState _attackState;
 
     // Player 
-    [HideInInspector] public Transform playerTransform;
+    [HideInInspector] private Transform playerTransform;
 
     // Enemy State Settings
     [SerializeField] public EnemyIdleStateSO enemyIdleSettings;
@@ -36,9 +36,9 @@ public class EnemyStateManager : MonoBehaviour
     {
         Setup();
         _idleState = new EnemyIdleState(this);
-        _attackState = new EnemyAttackState(this);
+        _attackState = new EnemyAttackState(this, playerTransform);
         
-        SetState(_idleState);
+        SetState(_attackState);
     }
 
     private void Setup()
@@ -47,6 +47,7 @@ public class EnemyStateManager : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player)
         {
+            Debug.Log("Player found");
             playerTransform = player.transform;
         }
         else
