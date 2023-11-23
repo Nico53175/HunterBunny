@@ -13,7 +13,7 @@ public class DroneStateManager : MonoBehaviour
     // Player 
     [HideInInspector] public Transform playerTransform;
 
-    // Drone Settings 
+    // Drone State Settings 
     [HideInInspector] public float currentSpeed;
     [HideInInspector] public SphereCollider visionRadiusCollider;
     [SerializeField] public DroneSO droneSettings;
