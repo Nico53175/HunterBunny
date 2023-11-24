@@ -39,18 +39,18 @@ Enemy State Machine
 
 New Animations
 
-Player:
-- Death
-- Free fall
-- Jump in place
-- Running backwards
-- Jumping Backwards
-- Walking Backwards
+- Player:
+-> Death
+-> Free fall
+-> Jump in place
+-> Running backwards
+-> Jumping Backwards
+-> Walking Backwards
 
-Enemy:
-- Attacking 
-- Walking 
-- Chase
-- Crawl
+- Enemy:
+-> Attacking 
+-> Walking 
+-> Chase
+-> Crawl
 
 Implementing URP for better Graphics and Ambient Lighting
