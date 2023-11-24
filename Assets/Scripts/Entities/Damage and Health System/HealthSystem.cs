@@ -38,7 +38,7 @@ public class HealthSystem : MonoBehaviour
 
     public float GetHealthAtLevel()
     {
-        return health * healthCurve.Evaluate(level);
+        return maxHealth * healthCurve.Evaluate(level);
     }
 
     public void OnLevelUp(int newLevel)
