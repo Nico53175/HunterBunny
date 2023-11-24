@@ -36,3 +36,19 @@ UI Representation: Create UI elements to represent the inventory in the game, al
 Enemy State Machine 
 - Add new States
 - Make existing States work
+
+New Animations
+Player:
+- Death
+- Free fall
+- Jump in place
+- Running backwards
+- Jumping Backwards
+- Walking Backwards
+Enemy:
+- Attacking 
+- Walking 
+- Chase
+- Crawl
+
+Implementing URP for better Graphics and Ambient Lighting
