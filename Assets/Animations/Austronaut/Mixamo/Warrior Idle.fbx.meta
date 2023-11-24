@@ -3,7 +3,77 @@ guid: 8a91961251fc05444adabf996959fb2f
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass
+    second: {fileID: 2100000, guid: 1f850bfc2ceb64e43862f2a7b64efc0c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Gloves
+    second: {fileID: 2100000, guid: d812af469d884af4084c81b4c7541c8d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Gloves Stripe
+    second: {fileID: 2100000, guid: ae906047b4e278648b7d15faa8d4ee5f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Helmet Light
+    second: {fileID: 2100000, guid: 1c594a6662142a1439ffcc3f7e029d74, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Helmet Light Plastic
+    second: {fileID: 2100000, guid: 9e3788e7ca9ae7647be990b854487b90, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Helmet Main
+    second: {fileID: 2100000, guid: b9e37645f1532ba48980edf6829ffd66, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Helmet Metal Light
+    second: {fileID: 2100000, guid: 35f83d804ee64d64f846488f78f5fda3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Main Body
+    second: {fileID: 2100000, guid: e964e224329b73d42b7eaf13a1d97914, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal  Wire
+    second: {fileID: 2100000, guid: 642abb4c30e58644d8f16368405c5bf0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metal Buckle_
+    second: {fileID: 2100000, guid: acb62238848252a4bbd2103e5e3daeb2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rivet
+    second: {fileID: 2100000, guid: 829823e5785e0fd4b948a7510b1fcc10, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rubber Pipes
+    second: {fileID: 2100000, guid: f0a960e890136af4cb232a95a59bb86e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Shoe
+    second: {fileID: 2100000, guid: 5e7138c3a2f071945bf031b9c04a5729, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Visor
+    second: {fileID: 2100000, guid: cefd0683394b280408f197ac08354a03, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
