@@ -38,6 +38,7 @@ Enemy State Machine
 - Make existing States work
 
 New Animations
+
 Player:
 - Death
 - Free fall
@@ -45,6 +46,7 @@ Player:
 - Running backwards
 - Jumping Backwards
 - Walking Backwards
+
 Enemy:
 - Attacking 
 - Walking 
