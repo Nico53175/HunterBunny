@@ -11,7 +11,7 @@ public class HealthSystem : MonoBehaviour
 
     public void Initialize(float health, int level, AnimationCurve healthCurve, IEntityEventSubscriber entityEventSubscriber)
     {
-        this.health = health;
+        this.maxHealth = health;
         this.level = level;
         this.healthCurve = healthCurve;
         this.entityEventSubscriber = entityEventSubscriber;
@@ -27,7 +27,6 @@ public class HealthSystem : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        Debug.Log($"Damage: {damage}, new Health: {currentHealth}");
     }
 
     public bool IsEntityDestroyed()

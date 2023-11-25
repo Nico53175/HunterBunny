@@ -698,7 +698,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0984cfa0b834f1344bf9cf4fe76e8208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTransform: {fileID: 0}
   enemyIdleSettings: {fileID: 11400000, guid: 1911374f61e556e4db100a95747e3e18, type: 2}
   enemyAttackSettings: {fileID: 11400000, guid: e54e43003f4777040bbca000ebfd72cd, type: 2}
 --- !u!114 &3130000789219605120
@@ -1328,8 +1327,8 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 194f4244ffbfc0540ac41233b6e781ed, type: 2}
-  - {fileID: 2100000, guid: 194f4244ffbfc0540ac41233b6e781ed, type: 2}
+  - {fileID: 2100000, guid: eec5af5c8bd40514482543f981947dd1, type: 2}
+  - {fileID: 2100000, guid: 8e033e0e6282c8f42bfbda9a0d0e0303, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

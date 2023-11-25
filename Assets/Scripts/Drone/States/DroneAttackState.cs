@@ -154,8 +154,6 @@ public class DroneAttackState : IDroneState
         {
             if (hit.transform.CompareTag("Enemy"))
             {
-                Debug.Log("Hitting Enemy");
-
                 // Apply damage to the enemy               
                 if (enemyHealthSystem != null)
                 {
