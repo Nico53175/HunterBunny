@@ -25,6 +25,8 @@ public class ItemStructure : MonoBehaviour
 
         meshRenderer.material = itemMaterial;
         meshFilter.mesh = itemMesh;
+
+        
     }
 
     // Update is called once per frame
