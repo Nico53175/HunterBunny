@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class InventoryManager : MonoBehaviour
 {
+    [SerializeField] private PlayerController playerController;
     private InventoryData inventoryData;
     private InventoryCell[,] inventoryCells;
     [SerializeField] private int xSizeMax;
@@ -131,6 +132,12 @@ public class InventoryManager : MonoBehaviour
         RefreshChangedInventoryUI();
     }
 
+    private void AddItem(int itemId, int itemCount)
+    {
+        inventoryData.AddItem(itemId, itemCount);
+        RefreshChangedInventoryUI();
+    }
+
     public void DeleteItem(int itemId)
     {
         Vector2? index = inventoryData.GetIndexById(itemId);
@@ -144,15 +151,15 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnEnable()
     {
-        if (Input.GetMouseButtonDown(0) && other.tag == "Item")
-        {
-            ItemStructure item = other.GetComponent<ItemStructure>();
-            int itemId = item.GetItemId();
-            int itemCount = item.GetItemCount();
-            inventoryData.AddItem(itemId, itemCount);
-            RefreshChangedInventoryUI();
-        }
+        // Subscribe to the event
+        playerController.OnItemPickedUp += AddItem;
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe to prevent memory leaks
+        playerController.OnItemPickedUp -= AddItem;
     }
 }

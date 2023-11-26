@@ -28,6 +28,9 @@ public class PlayerController : MonoBehaviour, IEntityEventSubscriber
 
     public UnityEvent<int> OnLevelUp = new UnityEvent<int>();
 
+    public delegate void ItemPickedUpEventHandler(int itemId, int itemCount);
+    public event ItemPickedUpEventHandler OnItemPickedUp;
+
     private void Awake()
     {
         if (healthSystem != null)
@@ -132,5 +135,18 @@ public class PlayerController : MonoBehaviour, IEntityEventSubscriber
         Ray ray = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
         RaycastHit hit;
         isGrounded = Physics.Raycast(ray, out hit, groundCheckDistance, groundLayer) ? true : false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Item"))
+        {
+            Debug.Log("Picked Up");
+            ItemStructure item = other.GetComponent<ItemStructure>();
+            int itemId = item.GetItemId();
+            int itemCount = item.GetItemCount();
+            OnItemPickedUp?.Invoke(itemId, itemCount);
+            Destroy(other.gameObject);
+        }
     }
 }

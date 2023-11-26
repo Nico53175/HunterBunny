@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Stone
   itemId: 1
   itemSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  itemMesh: {fileID: 7815164232677181889, guid: f43ba07c75cd81b43995d0b1252a93c2, type: 3}
+  itemMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   itemMaterial: {fileID: 2100000, guid: d54228123f78d7342adf22c6e9805570, type: 2}

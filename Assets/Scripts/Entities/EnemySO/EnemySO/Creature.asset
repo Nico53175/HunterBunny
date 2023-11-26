@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Creature
   m_EditorClassIdentifier: 
   enemyName: Creature
-  level: 100
+  level: 1
   health: 200
   damage: 5
   speed: 10
