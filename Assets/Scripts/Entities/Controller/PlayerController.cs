@@ -1,9 +1,14 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour, IEntityEventSubscriber
 {
+    private bool isInventoryOpen = false;
+    [SerializeField] private Canvas inventoryCanvas;
+    [SerializeField] private Canvas minimapCavas;
+
     private LayerMask groundLayer;
     private float groundCheckDistance;
     private float speed;
@@ -39,6 +44,7 @@ public class PlayerController : MonoBehaviour, IEntityEventSubscriber
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+
         groundLayer = player.groundLayer;
         groundCheckDistance = player.groundCheckDistance;
         speed = player.speed;
@@ -49,9 +55,22 @@ public class PlayerController : MonoBehaviour, IEntityEventSubscriber
 
     private void Update()
     {
+        // Movement
         CheckIfGrounded();
         Move();
         Jump();
+
+        // Inventory
+        OpenInventory();
+    }
+    private void OpenInventory()
+    {
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            isInventoryOpen = !isInventoryOpen;
+            minimapCavas.enabled = !isInventoryOpen;
+            inventoryCanvas.enabled = isInventoryOpen; 
+        }
     }
 
     public void SubscribeToLevelUp(UnityAction<int> callback)

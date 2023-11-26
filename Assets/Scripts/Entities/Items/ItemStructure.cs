@@ -1,20 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemStructure : MonoBehaviour
 {
     [SerializeField] ItemSO itemData; 
 
-    int id;
-    string name;
+    int itemID;
+    string itemName;
     Sprite itemSprite;
     Mesh itemMesh;
     Material itemMaterial;
     // Start is called before the first frame update
     void Start()
     {
-        id = itemData.itemID; 
+        itemID = itemData.itemId; 
         name = itemData.name;
         itemSprite = itemData.itemSprite;
         itemMaterial = itemData.itemMaterial;
@@ -25,13 +23,10 @@ public class ItemStructure : MonoBehaviour
 
         meshRenderer.material = itemMaterial;
         meshFilter.mesh = itemMesh;
-
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public int GetItemId()
     {
-        
+        return itemID;
     }
 }

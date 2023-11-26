@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f22e6ddaf2740b4da4b1ca25c13debc, type: 3}
-  m_Name: Emerald
+  m_Script: {fileID: 11500000, guid: 8c3bb2262fdf86f42b204064e3e453e7, type: 3}
+  m_Name: ItemDataset
   m_EditorClassIdentifier: 
-  itemName: Emerald
-  itemID: 2
-  itemSprite: {fileID: 0}
-  itemMesh: {fileID: 0}
-  itemMaterial: {fileID: 0}
+  items:
+  - {fileID: 11400000, guid: e8d805decb0d9414c8d1fa9c821aadbf, type: 2}
+  - {fileID: 11400000, guid: 5b5eeb26aad6b3e40873b2fb2b0d0cca, type: 2}
