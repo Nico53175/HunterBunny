@@ -68,8 +68,18 @@ public class PlayerController : MonoBehaviour, IEntityEventSubscriber
         if(Input.GetKeyDown(KeyCode.E))
         {
             isInventoryOpen = !isInventoryOpen;
-            minimapCavas.enabled = !isInventoryOpen;
-            inventoryCanvas.enabled = isInventoryOpen; 
+            inventoryCanvas.enabled = isInventoryOpen;
+
+            if (isInventoryOpen)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
         }
     }
 

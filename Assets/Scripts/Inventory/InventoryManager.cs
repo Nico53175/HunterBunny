@@ -26,22 +26,44 @@ public class InventoryManager : MonoBehaviour
         inventoryData = new InventoryData(xSize, ySize);
         inventoryCells = new InventoryCell[xSize, ySize];
         InitializeUI();
+
+        inventoryData.AddItem(itemLookup[1].itemId, 2);
+        inventoryData.AddItem(itemLookup[2].itemId, 5);
+        RefreshChangedInventoryUI();
     }
 
     private void InitializeUI()
     {
+        // Assume cellPrefab has a RectTransform component
+        RectTransform prefabRect = cellPrefab.GetComponent<RectTransform>();
+        float cellWidth = prefabRect.sizeDelta.x; // Width of each cell
+        float cellHeight = prefabRect.sizeDelta.y; // Height of each cell
+        float spacing = 50; // Spacing between cells
+
         for (int x = 0; x < xSize; x++)
         {
             for (int y = 0; y < ySize; y++)
             {
-                Vector2 pos = new Vector2(x * 100 + 10, y * -100 - 10);
+                // Calculate position for each cell
+                float posX = (x * (cellWidth + spacing)) + cellWidth / 2;
+                float posY = -((y * (cellHeight + spacing)) + cellHeight / 2);
+
+                Vector2 pos = new Vector2(posX, posY);
+
                 InventoryCell cell = Instantiate(cellPrefab, pos, Quaternion.identity, cellParent);
                 cell.GetComponent<Image>().sprite = defaultSprite;
                 cell.Initialize(this, x, y);
                 inventoryCells[x, y] = cell;
+
+                // Set the anchor to the top left
+                RectTransform rectTransform = cell.GetComponent<RectTransform>();
+                rectTransform.anchorMin = new Vector2(0, 2);
+                rectTransform.anchorMax = new Vector2(0, 2);
+                rectTransform.pivot = new Vector2(0, 1);
             }
         }
     }
+
 
     private void RefreshAllInventoryUI()
     {

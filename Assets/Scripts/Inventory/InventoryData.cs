@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class InventoryData
 {
     private int xSize;
     private int ySize;
     private ItemData[,] inventory;
-    private List<Vector2> changedCells = new List<Vector2>();
+    private List<Vector2> changedCells;
     public List<Vector2> ChangedCells => changedCells;
     public struct ItemData
     {
@@ -19,6 +20,16 @@ public class InventoryData
         this.xSize = xSize;
         this.ySize = ySize;
         inventory = new ItemData[this.xSize, this.ySize];
+
+        changedCells = new List<Vector2>();
+        for (int x = 0; x < xSize; x++)
+        {
+            for (int y = 0; y < ySize; y++)
+            {
+                inventory[x, y].itemId = 0;
+                inventory[x, y].itemCount = 0;
+            }
+        }
     }   
 
     public ItemData[,] GetInventoryData()
@@ -58,10 +69,13 @@ public class InventoryData
             if (!IsInvenntoryFull())
             {
                 int[] freeSpotIndex = FindFreeSpot();
-                inventory[freeSpotIndex[0], freeSpotIndex[1]].itemId = itemId;
-                inventory[freeSpotIndex[0], freeSpotIndex[1]].itemCount = count;
-                changedCells.Add(new Vector2(index[0], index[1]));
-            }
+                if (freeSpotIndex != null) // Check if a free spot was found
+                {
+                    inventory[freeSpotIndex[0], freeSpotIndex[1]].itemId = itemId;
+                    inventory[freeSpotIndex[0], freeSpotIndex[1]].itemCount = count;
+                    changedCells.Add(new Vector2(freeSpotIndex[0], freeSpotIndex[1]));
+                }
+            }            
         }
     }
 
@@ -103,7 +117,7 @@ public class InventoryData
             {
                 if (inventory[x, y].itemId == 0) 
                 {
-                    return new int[] { x, y };
+                    return new int[] { y, x };
                 }
             }
         }
