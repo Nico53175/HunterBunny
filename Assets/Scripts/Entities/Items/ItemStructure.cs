@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ItemStructure : MonoBehaviour
@@ -5,6 +6,7 @@ public class ItemStructure : MonoBehaviour
     [SerializeField] ItemSO itemData; 
 
     int itemID;
+    int itemCount = 1;
     string itemName;
     Sprite itemSprite;
     Mesh itemMesh;
@@ -28,5 +30,10 @@ public class ItemStructure : MonoBehaviour
     public int GetItemId()
     {
         return itemID;
+    }
+
+    internal int GetItemCount()
+    {
+        return itemCount;
     }
 }

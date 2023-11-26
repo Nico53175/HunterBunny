@@ -8,7 +8,7 @@ public class InventoryCell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private Vector2 originalPosition;
     private Transform originalParent;
     private InventoryManager inventoryManager;
-    public Vector2 index;
+    [HideInInspector] public Vector2 index;
     [SerializeField] public Image imageComponent;
     [SerializeField] public TMP_Text textComponent;
 
@@ -32,11 +32,12 @@ public class InventoryCell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         transform.position = originalPosition;
         transform.SetParent(originalParent);
+        GameObject target = eventData.pointerCurrentRaycast.gameObject;
 
         // Check if dropped on a valid target
-        if (eventData.pointerCurrentRaycast.gameObject != null)
+        if (target != null && target.tag == "Inventory Cell")
         {
-            InventoryCell targetCell = eventData.pointerCurrentRaycast.gameObject.GetComponent<InventoryCell>();
+            InventoryCell targetCell = target.GetComponent<InventoryCell>();
             if (targetCell != null)
             {
                 inventoryManager.SwapItems(this, targetCell);

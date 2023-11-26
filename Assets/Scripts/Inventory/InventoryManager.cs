@@ -26,7 +26,6 @@ public class InventoryManager : MonoBehaviour
         inventoryData = new InventoryData(xSize, ySize);
         inventoryCells = new InventoryCell[xSize, ySize];
         InitializeUI();
-        RefreshAllInventoryUI();
     }
 
     private void InitializeUI()
@@ -35,7 +34,7 @@ public class InventoryManager : MonoBehaviour
         {
             for (int y = 0; y < ySize; y++)
             {
-                Vector2 pos = new Vector2(x * 25, y * 25);
+                Vector2 pos = new Vector2(x * 100 + 10, y * -100 - 10);
                 InventoryCell cell = Instantiate(cellPrefab, pos, Quaternion.identity, cellParent);
                 cell.GetComponent<Image>().sprite = defaultSprite;
                 cell.Initialize(this, x, y);
@@ -118,9 +117,8 @@ public class InventoryManager : MonoBehaviour
             int xIndex = (int)index.Value.x;
             int yIndex = (int)index.Value.y;
 
-            inventoryData.RemoveItem(itemId); 
-            inventoryCells[xIndex, yIndex].imageComponent.sprite = defaultSprite;
-            inventoryCells[xIndex, yIndex].textComponent.text = "";
+            inventoryData.RemoveItem(itemId);
+            RefreshChangedInventoryUI();
         }
     }
 
@@ -128,8 +126,10 @@ public class InventoryManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && other.tag == "Item")
         {
-            int itemId = other.GetComponent<ItemStructure>().GetItemId();
-            inventoryData.AddItem(itemId, 1);
+            ItemStructure item = other.GetComponent<ItemStructure>();
+            int itemId = item.GetItemId();
+            int itemCount = item.GetItemCount();
+            inventoryData.AddItem(itemId, itemCount);
             RefreshChangedInventoryUI();
         }
     }

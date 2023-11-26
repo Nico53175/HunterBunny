@@ -13,6 +13,7 @@ public class InventoryData
         public int itemId;
         public int itemCount;
     }
+
     public InventoryData(int xSize, int ySize)
     {
         this.xSize = xSize;
@@ -116,9 +117,9 @@ public class InventoryData
         int targetX = (int)targetIndex.x;
         int targetY = (int)targetIndex.y;
 
-        int temp = inventory[sourceX, sourceY].itemId;
+        ItemData temp = inventory[sourceX, sourceY];
         inventory[sourceX, sourceY] = inventory[targetX, targetY];
-        inventory[targetX, targetY].itemId = temp;
+        inventory[targetX, targetY] = temp;
         changedCells.Add(new Vector2(sourceX, sourceY));
         changedCells.Add(new Vector2(targetX, targetY));
     }
@@ -126,6 +127,11 @@ public class InventoryData
     public int GetCountByIndex(Vector2 index)
     {
         return inventory[(int)index.x, (int)index.y].itemCount;
+    }
+
+    public int GetIdByIndex(Vector2 index)
+    {
+        return inventory[(int)index.x, (int)index.y].itemId;
     }
 
     public Vector2? GetIndexById(int itemId)
