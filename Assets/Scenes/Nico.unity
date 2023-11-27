@@ -1830,8 +1830,8 @@ MonoBehaviour:
   playerController: {fileID: 1850165326}
   xSizeMax: 8
   ySizeMax: 8
-  xSize: 7
-  ySize: 5
+  xSize: 6
+  ySize: 4
   cellPrefab: {fileID: 2277458769057528354, guid: 163e1aa4656118a40b3bfb13d0387593, type: 3}
   cellParent: {fileID: 256527940}
   defaultSprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}

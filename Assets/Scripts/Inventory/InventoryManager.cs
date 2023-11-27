@@ -31,6 +31,9 @@ public class InventoryManager : MonoBehaviour
         inventoryData.AddItem(itemLookup[1].itemId, 2);
         inventoryData.AddItem(itemLookup[2].itemId, 5);
         RefreshChangedInventoryUI();
+
+        Canvas canvas = gameObject.GetComponent<Canvas>();
+        canvas.enabled = false;
     }
 
     private void InitializeUI()
