@@ -1,19 +1,30 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
+using static UnityEngine.Rendering.DebugUI;
+
 public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private PlayerController playerController;
     private InventoryData inventoryData;
-    private InventoryCell[,] inventoryCells;
     [SerializeField] private int xSizeMax;
     [SerializeField] private int ySizeMax;
     [SerializeField] private int xSize;
     [SerializeField] private int ySize;
-    [SerializeField] InventoryCell cellPrefab;
-    [SerializeField] Transform cellParent;
-    [SerializeField] Sprite defaultSprite;
-    [SerializeField] ItemDatasetSO lookUpTable;
+
+    private InventoryCell[,] inventoryCells;
+    [SerializeField] private InventoryCell cellPrefab;
+    [SerializeField] private Transform cellParent;
+
+    private InventoryCraftingCell[] craftingCells;
+    [SerializeField] private InventoryCraftingCell craftingCellPrefab;
+    [SerializeField] private Transform craftingCellParent;
+
+    [SerializeField] private Sprite defaultSprite;
+
+    [SerializeField] private ItemDatasetSO lookUpTable;
     private Dictionary<int, ItemSO> itemLookupTable;
 
     private void Start()
@@ -38,9 +49,34 @@ public class InventoryManager : MonoBehaviour
 
     private void InitializeUI()
     {
+        InitializeInventoryCells();
+        InitializeCraftingCells();
+    }
+
+    private void InitializeCraftingCells()
+    {
+        List<ItemSO> craftingCellsSO = new List<ItemSO>();
+        foreach(KeyValuePair<int, ItemSO> kvp in itemLookupTable)
+        {
+            if(kvp.Value.craftingIngredients.Count > 0)
+            {
+                craftingCellsSO.Add(kvp.Value);
+            }
+        }
+
+        craftingCells = new InventoryCraftingCell[craftingCellsSO.Count];
+
+        for(int i = 0; i < craftingCellsSO.Count; i++)
+        {
+            craftingCells[i] = Instantiate(craftingCellPrefab, cellParent);
+        }
+    }
+
+    private void InitializeInventoryCells()
+    {
         RectTransform prefabRect = cellPrefab.GetComponent<RectTransform>();
-        float cellWidth = prefabRect.sizeDelta.x; // Width of each cell
-        float cellHeight = prefabRect.sizeDelta.y; // Height of each cell
+        float cellWidth = prefabRect.sizeDelta.x;
+        float cellHeight = prefabRect.sizeDelta.y;
         float spacing = 50; // Spacing between cells
 
         for (int x = 0; x < xSize; x++)
@@ -55,7 +91,7 @@ public class InventoryManager : MonoBehaviour
 
                 InventoryCell cell = Instantiate(cellPrefab, pos, Quaternion.identity, cellParent);
                 cell.GetComponent<Image>().sprite = defaultSprite;
-                cell.Initialize(this);
+                cell.Initialize(this, x, y);
                 inventoryCells[x, y] = cell;
 
                 // Set the anchor to the top left
@@ -66,7 +102,6 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
-
 
     private void RefreshAllInventoryUI()
     {
@@ -155,13 +190,11 @@ public class InventoryManager : MonoBehaviour
 
     private void OnEnable()
     {
-        // Subscribe to the event
         playerController.OnItemPickedUp += AddItem;
     }
 
     private void OnDisable()
     {
-        // Unsubscribe to prevent memory leaks
         playerController.OnItemPickedUp -= AddItem;
     }
 }
