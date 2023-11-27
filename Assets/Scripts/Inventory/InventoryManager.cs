@@ -14,22 +14,22 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] Transform cellParent;
     [SerializeField] Sprite defaultSprite;
     [SerializeField] ItemDatasetSO lookUpTable;
-    private Dictionary<int, ItemSO> itemLookup;
+    private Dictionary<int, ItemSO> itemLookupTable;
 
     private void Start()
     {
-        itemLookup = new Dictionary<int, ItemSO>();
+        itemLookupTable = new Dictionary<int, ItemSO>();
         foreach (var item in lookUpTable.items)
         {
-            itemLookup[item.itemId] = item;
+            itemLookupTable[item.itemId] = item;
         }
 
         inventoryData = new InventoryData(xSize, ySize);
         inventoryCells = new InventoryCell[xSize, ySize];
         InitializeUI();
 
-        inventoryData.AddItem(itemLookup[1].itemId, 2);
-        inventoryData.AddItem(itemLookup[2].itemId, 5);
+        inventoryData.AddItem(itemLookupTable[1].itemId, 2);
+        inventoryData.AddItem(itemLookupTable[2].itemId, 5);
         RefreshChangedInventoryUI();
 
         Canvas canvas = gameObject.GetComponent<Canvas>();
@@ -38,7 +38,6 @@ public class InventoryManager : MonoBehaviour
 
     private void InitializeUI()
     {
-        // Assume cellPrefab has a RectTransform component
         RectTransform prefabRect = cellPrefab.GetComponent<RectTransform>();
         float cellWidth = prefabRect.sizeDelta.x; // Width of each cell
         float cellHeight = prefabRect.sizeDelta.y; // Height of each cell
@@ -56,7 +55,7 @@ public class InventoryManager : MonoBehaviour
 
                 InventoryCell cell = Instantiate(cellPrefab, pos, Quaternion.identity, cellParent);
                 cell.GetComponent<Image>().sprite = defaultSprite;
-                cell.Initialize(this, x, y);
+                cell.Initialize(this);
                 inventoryCells[x, y] = cell;
 
                 // Set the anchor to the top left
@@ -122,7 +121,7 @@ public class InventoryManager : MonoBehaviour
 
     private ItemSO FindItemSOById(int id)
     {
-        if (itemLookup.TryGetValue(id, out ItemSO item))
+        if (itemLookupTable.TryGetValue(id, out ItemSO item))
         {
             return item;
         }

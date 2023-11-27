@@ -8,14 +8,12 @@ public class InventoryCell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private Vector2 originalPosition;
     private Transform originalParent;
     private InventoryManager inventoryManager;
-    [HideInInspector] public Vector2 index;
     [SerializeField] public Image imageComponent;
     [SerializeField] public TMP_Text textComponent;
     private Vector2 centerOffset;
-    public void Initialize(InventoryManager manager, int x, int y)
+    public void Initialize(InventoryManager manager)
     {
         inventoryManager = manager;
-        index = new Vector2(x, y);
     }
     public void OnBeginDrag(PointerEventData eventData)
     {

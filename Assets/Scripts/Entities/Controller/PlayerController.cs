@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour, IEntityEventSubscriber
     public UnityEvent<int> OnLevelUp = new UnityEvent<int>();
 
     public delegate void ItemPickedUpEventHandler(int itemId, int itemCount);
-    public event ItemPickedUpEventHandler OnItemPickedUp;
+    public event ItemPickedUpEventHandler OnItemPickedUp; 
 
     private void Awake()
     {
