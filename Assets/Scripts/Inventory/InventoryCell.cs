@@ -11,7 +11,7 @@ public class InventoryCell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [HideInInspector] public Vector2 index;
     [SerializeField] public Image imageComponent;
     [SerializeField] public TMP_Text textComponent;
-
+    private Vector2 centerOffset;
     public void Initialize(InventoryManager manager, int x, int y)
     {
         inventoryManager = manager;
@@ -21,11 +21,14 @@ public class InventoryCell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         originalPosition = transform.position;
         originalParent = transform.parent;
+        centerOffset = (Vector2)transform.position - eventData.position;
+        transform.SetAsFirstSibling();
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        transform.position = eventData.position; // Follow the cursor
+        Vector2 newPosition = eventData.position + centerOffset;
+        transform.position = newPosition;
     }
 
     public void OnEndDrag(PointerEventData eventData)

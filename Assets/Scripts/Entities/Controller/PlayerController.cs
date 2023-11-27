@@ -137,9 +137,9 @@ public class PlayerController : MonoBehaviour, IEntityEventSubscriber
         isGrounded = Physics.Raycast(ray, out hit, groundCheckDistance, groundLayer) ? true : false;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Item"))
+        if (other.CompareTag("Item") && Input.GetMouseButtonDown(0))
         {
             Debug.Log("Picked Up");
             ItemStructure item = other.GetComponent<ItemStructure>();
