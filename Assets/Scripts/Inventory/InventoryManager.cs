@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -74,7 +73,7 @@ public class InventoryManager : MonoBehaviour
 
                 // Calculate Position is missing
                 ItemSO item = craftableItemsSO[i];
-                InventoryCraftingCell cell = Instantiate(craftingCellPrefab, cellParent);
+                InventoryCraftingCell cell = Instantiate(craftingCellPrefab, craftingCellParent);
                 cell.GetComponent<Image>().sprite = item.itemSprite;
                 cell.Initialize(this, item.itemId, item.craftingIngredients);
                 craftingCells[i] = cell;
@@ -86,35 +85,21 @@ public class InventoryManager : MonoBehaviour
                 cell.gameObject.SetActive(false);
             }
         }
-    }    
-
+    }
     private void InitializeInventoryCells()
     {
-        RectTransform prefabRect = cellPrefab.GetComponent<RectTransform>();
-        float cellWidth = prefabRect.sizeDelta.x;
-        float cellHeight = prefabRect.sizeDelta.y;
-        float spacing = 50; // Spacing between cells
+        GridLayoutGroup cellLayoutGroup = cellParent.GetComponent<GridLayoutGroup>();
+        cellLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+        cellLayoutGroup.constraintCount = xSize;
 
         for (int x = 0; x < xSize; x++)
         {
             for (int y = 0; y < ySize; y++)
             {
-                // Calculate position for each cell
-                float posX = (x * (cellWidth + spacing)) + cellWidth / 2;
-                float posY = -((y * (cellHeight + spacing)) + cellHeight / 2);
-
-                Vector2 pos = new Vector2(posX, posY);
-
-                InventoryCell cell = Instantiate(cellPrefab, pos, Quaternion.identity, cellParent);
+                InventoryCell cell = Instantiate(cellPrefab, cellParent);
                 cell.GetComponent<Image>().sprite = defaultSprite;
                 cell.Initialize(this, x, y);
                 inventoryCells[x, y] = cell;
-
-                // Set the anchor to the top left
-                RectTransform rectTransform = cell.GetComponent<RectTransform>();
-                rectTransform.anchorMin = new Vector2(0, 2);
-                rectTransform.anchorMax = new Vector2(0, 2);
-                rectTransform.pivot = new Vector2(0, 1);
             }
         }
     }

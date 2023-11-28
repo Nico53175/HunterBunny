@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventoryCraftingCell : MonoBehaviour
+public class InventoryCraftingCell : MonoBehaviour, IPointerClickHandler
 {
     private InventoryManager inventoryManager;
 
@@ -21,8 +21,8 @@ public class InventoryCraftingCell : MonoBehaviour
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left) // Get One Item per Click
-        {                
-            
+        {
+            Debug.Log("Crafting");
         }
     }
 }

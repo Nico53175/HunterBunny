@@ -18,3 +18,4 @@ MonoBehaviour:
   itemMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   itemMaterial: {fileID: 2100000, guid: d54228123f78d7342adf22c6e9805570, type: 2}
   itemType: 1
+  craftingIngredients: []

@@ -12,6 +12,7 @@ public class InventoryCell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [SerializeField] public Image imageComponent;
     [SerializeField] public TMP_Text textComponent;
     private Vector2 centerOffset;
+    private int ciblingIndex;
     public void Initialize(InventoryManager inventoryManager, int x, int y)
     {
         this.inventoryManager = inventoryManager;
@@ -21,7 +22,9 @@ public class InventoryCell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         originalPosition = transform.position;
         originalParent = transform.parent;
+        originalParent.GetComponent<GridLayoutGroup>().enabled = false;
         centerOffset = (Vector2)transform.position - eventData.position;
+        ciblingIndex = transform.GetSiblingIndex();
         transform.SetAsFirstSibling();
     }
 
@@ -46,5 +49,7 @@ public class InventoryCell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 inventoryManager.SwapItems(this, targetCell);
             }
         }
+        transform.SetSiblingIndex(ciblingIndex);
+        originalParent.GetComponent<GridLayoutGroup>().enabled = true;
     }
 }
