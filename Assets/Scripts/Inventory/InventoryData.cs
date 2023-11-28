@@ -116,7 +116,7 @@ public class InventoryData
             {
                 if (inventory[x, y].itemId == 0) 
                 {
-                    return new int[] { y, x };
+                    return new int[] { x, y };
                 }
             }
         }

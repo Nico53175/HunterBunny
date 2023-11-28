@@ -145,14 +145,32 @@ public class PlayerController : MonoBehaviour, IEntityEventSubscriber
         if (other.CompareTag("Item") && Input.GetMouseButtonDown(0))
         {
             Debug.Log("Picked Up");
-            ItemStructure item = other.GetComponent<ItemStructure>();
-            int itemId = item.GetItemId();
-            int itemCount = item.GetItemCount();
-            OnItemPickedUp?.Invoke(itemId, itemCount);
+            ItemStructure item;
+            int itemId;
+            int itemCount;        
             Destroy(other.gameObject);
+
+            if(other.transform.parent != null)
+            {
+                GameObject parent = other.transform.parent.gameObject;
+                item = parent.GetComponent<ItemStructure>();
+                itemId = item.GetItemId();
+                itemCount = item.GetItemCount();
+                Destroy(parent);
+                OnItemPickedUp?.Invoke(itemId, itemCount);
+            }
+            else
+            {
+                item = other.GetComponent<ItemStructure>();
+                itemId = item.GetItemId();
+                itemCount = item.GetItemCount();
+                Destroy(other.gameObject);
+                OnItemPickedUp?.Invoke(itemId, itemCount);
+            }
+
         }
 
-        if(other.CompareTag("Crafting Bench"))
+        if(other.CompareTag("Crafting Bench") && Input.GetMouseButtonDown(0))
         {
             OnCraftingTableOpened?.Invoke();
         }
