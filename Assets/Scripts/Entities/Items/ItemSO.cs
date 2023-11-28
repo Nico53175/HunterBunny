@@ -21,9 +21,7 @@ public class ItemSO : ScriptableObject
 
     public string itemName;
     public int itemId;
-    public Sprite itemSprite;
-    public Mesh itemMesh;
-    public Material itemMaterial;    
+    public Sprite itemSprite;    
     public ItemType itemType;
     public List<CraftingIngredient> craftingIngredients;
 }

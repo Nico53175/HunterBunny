@@ -9,22 +9,13 @@ public class ItemStructure : MonoBehaviour
     int itemCount = 1;
     string itemName;
     Sprite itemSprite;
-    Mesh itemMesh;
-    Material itemMaterial;
+    
     // Start is called before the first frame update
     void Start()
     {
         itemID = itemData.itemId; 
         name = itemData.name;
         itemSprite = itemData.itemSprite;
-        itemMaterial = itemData.itemMaterial;
-        itemMesh = itemData.itemMesh;
-
-        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-        MeshFilter meshFilter = GetComponent<MeshFilter>();
-
-        meshRenderer.material = itemMaterial;
-        meshFilter.mesh = itemMesh;
     }
 
     public int GetItemId()
