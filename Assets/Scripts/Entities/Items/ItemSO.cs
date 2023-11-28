@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class CraftingIngredient
 {
-    public int id;
+    public int itemId;
     public int count;
 }
 

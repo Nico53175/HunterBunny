@@ -30,6 +30,9 @@ public class PlayerController : MonoBehaviour, IEntityEventSubscriber
 
     public delegate void ItemPickedUpEventHandler(int itemId, int itemCount);
     public event ItemPickedUpEventHandler OnItemPickedUp; 
+    
+    public delegate void WorkBenchOpenedEventHandler();
+    public event WorkBenchOpenedEventHandler OnCraftingTableOpened; 
 
     private void Awake()
     {
@@ -147,6 +150,11 @@ public class PlayerController : MonoBehaviour, IEntityEventSubscriber
             int itemCount = item.GetItemCount();
             OnItemPickedUp?.Invoke(itemId, itemCount);
             Destroy(other.gameObject);
+        }
+
+        if(other.CompareTag("Crafting Bench"))
+        {
+            OnCraftingTableOpened?.Invoke();
         }
     }
 }

@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.Rendering.DebugUI;
+using static UnityEditor.Progress;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -13,7 +11,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private int ySizeMax;
     [SerializeField] private int xSize;
     [SerializeField] private int ySize;
-
+    
     private InventoryCell[,] inventoryCells;
     [SerializeField] private InventoryCell cellPrefab;
     [SerializeField] private Transform cellParent;
@@ -39,14 +37,15 @@ public class InventoryManager : MonoBehaviour
         inventoryCells = new InventoryCell[xSize, ySize];
         InitializeUI();
 
-        inventoryData.AddItem(itemLookupTable[1].itemId, 2);
-        inventoryData.AddItem(itemLookupTable[2].itemId, 5);
+        inventoryData.AddItem(1, 2);
+        inventoryData.AddItem(2, 5);
         RefreshChangedInventoryUI();
 
         Canvas canvas = gameObject.GetComponent<Canvas>();
         canvas.enabled = false;
     }
 
+    // Initialize Methodes
     private void InitializeUI()
     {
         InitializeInventoryCells();
@@ -55,22 +54,39 @@ public class InventoryManager : MonoBehaviour
 
     private void InitializeCraftingCells()
     {
-        List<ItemSO> craftingCellsSO = new List<ItemSO>();
+        Debug.Log("Initializing");
+        List<ItemSO> craftableItemsSO = new List<ItemSO>();
         foreach(KeyValuePair<int, ItemSO> kvp in itemLookupTable)
         {
             if(kvp.Value.craftingIngredients.Count > 0)
             {
-                craftingCellsSO.Add(kvp.Value);
+                craftableItemsSO.Add(kvp.Value);
             }
         }
 
-        craftingCells = new InventoryCraftingCell[craftingCellsSO.Count];
-
-        for(int i = 0; i < craftingCellsSO.Count; i++)
+        if(craftableItemsSO.Count > 0)
         {
-            craftingCells[i] = Instantiate(craftingCellPrefab, cellParent);
+            craftingCells = new InventoryCraftingCell[craftableItemsSO.Count];
+
+            for (int i = 0; i < craftingCells.Length; i++)
+            {
+                Debug.Log("New Crafting Cell");
+
+                // Calculate Position is missing
+                ItemSO item = craftableItemsSO[i];
+                InventoryCraftingCell cell = Instantiate(craftingCellPrefab, cellParent);
+                cell.GetComponent<Image>().sprite = item.itemSprite;
+                cell.Initialize(this, item.itemId, item.craftingIngredients);
+                craftingCells[i] = cell;
+
+                RectTransform rectTransform = cell.GetComponent<RectTransform>();
+                rectTransform.anchorMin = new Vector2(0, 2);
+                rectTransform.anchorMax = new Vector2(0, 2);
+                rectTransform.pivot = new Vector2(0, 1);
+                cell.gameObject.SetActive(false);
+            }
         }
-    }
+    }    
 
     private void InitializeInventoryCells()
     {
@@ -103,6 +119,31 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    // Crafting Methodes
+    private void FindCraftableItems()
+    {
+        foreach(InventoryCraftingCell cell in craftingCells)
+        {
+            bool canBeCrafted = true;
+
+            // Check if all ingredients are present in the required quantity
+            foreach (var ingredient in cell.craftingIngredients)
+            {
+                int requiredQuantity = ingredient.count;
+                int ingredientId = ingredient.itemId;
+                int availableQuantity = inventoryData.GetCountById(ingredientId);
+
+                if (availableQuantity < requiredQuantity)
+                {
+                    canBeCrafted = false;
+                    break;
+                }
+            }
+            cell.gameObject.SetActive(canBeCrafted);            
+        }
+    }
+
+    // Refresh Methodes
     private void RefreshAllInventoryUI()
     {
         InventoryData.ItemData[,] inventory = inventoryData.GetInventoryData();
@@ -154,6 +195,7 @@ public class InventoryManager : MonoBehaviour
         inventoryData.ClearChangedCells();
     }
 
+    // Inventory Methodes
     private ItemSO FindItemSOById(int id)
     {
         if (itemLookupTable.TryGetValue(id, out ItemSO item))
@@ -188,13 +230,16 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    // Event Listeners
     private void OnEnable()
     {
         playerController.OnItemPickedUp += AddItem;
+        playerController.OnCraftingTableOpened += FindCraftableItems;
     }
 
     private void OnDisable()
     {
         playerController.OnItemPickedUp -= AddItem;
+        playerController.OnCraftingTableOpened -= FindCraftableItems;
     }
 }

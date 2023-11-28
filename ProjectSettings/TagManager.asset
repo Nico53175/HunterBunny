@@ -11,6 +11,7 @@ TagManager:
   - Camera
   - Inventory Cell
   - Item
+  - Crafting Bench
   layers:
   - Default
   - TransparentFX

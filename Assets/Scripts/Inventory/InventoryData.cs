@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class InventoryData
 {
@@ -146,6 +145,21 @@ public class InventoryData
     public int GetIdByIndex(Vector2 index)
     {
         return inventory[(int)index.x, (int)index.y].itemId;
+    }
+
+    public int GetCountById(int itemId)
+    {
+        for (int x = 0; x < xSize; x++)
+        {
+            for (int y = 0; y < ySize; y++)
+            {
+                if (inventory[x, y].itemId == itemId)
+                {
+                    return inventory[x, y].itemCount;
+                }
+            }
+        }
+        return 0;
     }
 
     public Vector2? GetIndexById(int itemId)

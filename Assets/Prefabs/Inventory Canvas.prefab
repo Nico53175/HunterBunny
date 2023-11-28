@@ -120,8 +120,10 @@ MonoBehaviour:
   ySizeMax: 8
   xSize: 6
   ySize: 4
-  cellPrefab: {fileID: 2277458769057528354, guid: 163e1aa4656118a40b3bfb13d0387593, type: 3}
+  cellPrefab: {fileID: 1709823384110993883, guid: dcf6152bd1fbc274087c145d8c3c8a0b, type: 3}
   cellParent: {fileID: 1606394615427838183}
+  craftingCellPrefab: {fileID: 6947964718873320198, guid: 163e1aa4656118a40b3bfb13d0387593, type: 3}
+  craftingCellParent: {fileID: 1606394615427838183}
   defaultSprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   lookUpTable: {fileID: 11400000, guid: d15e3099dcba2f248a5b9d82095be533, type: 2}
 --- !u!1 &8295297305538553753
