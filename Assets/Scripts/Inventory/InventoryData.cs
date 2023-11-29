@@ -36,7 +36,7 @@ public class InventoryData
         return inventory;
     }
 
-    public void RemoveItem(int itemId)
+    public void DeleteItem(int itemId)
     {
         for (int x = 0; x < xSize; x++)
         {
@@ -47,6 +47,29 @@ public class InventoryData
                     inventory[x, y].itemId = 0;
                     inventory[x, y].itemCount = 0;
                     changedCells.Add(new Vector2(x, y));
+                }
+            }
+        }
+    }
+
+    public void DeleteItem(int itemId, int count)
+    {
+        for (int x = 0; x < xSize; x++)
+        {
+            for (int y = 0; y < ySize; y++)
+            {
+                if (inventory[x, y].itemId == itemId)
+                {
+                    inventory[x, y].itemCount -= count;
+
+                    if(inventory[x, y].itemCount <= 0)
+                    {
+                        DeleteItem(itemId);
+                    }
+                    else
+                    {
+                        changedCells.Add(new Vector2(x, y));
+                    }
                 }
             }
         }

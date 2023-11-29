@@ -22,7 +22,12 @@ public class InventoryCraftingCell : MonoBehaviour, IPointerClickHandler
     {
         if (eventData.button == PointerEventData.InputButton.Left) // Get One Item per Click
         {
-            Debug.Log("Crafting");
+            foreach(var item in craftingIngredients)
+            {
+                inventoryManager.DeleteItem(item.itemId, item.count);
+            }
+            inventoryManager.AddItem(itemId, 1);
+            inventoryManager.FindCraftableItems();
         }
     }
 }

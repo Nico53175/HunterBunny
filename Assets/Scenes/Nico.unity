@@ -1189,7 +1189,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 76357153982486349, guid: 8baca776b83627e41b99cbb194817b0b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.1464863
+      value: 3.203
       objectReference: {fileID: 0}
     - target: {fileID: 76357153982486349, guid: 8baca776b83627e41b99cbb194817b0b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1230,6 +1230,10 @@ PrefabInstance:
     - target: {fileID: 9128797459563872662, guid: 8baca776b83627e41b99cbb194817b0b, type: 3}
       propertyPath: m_Name
       value: 1 Stone Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 9128797459563872662, guid: 8baca776b83627e41b99cbb194817b0b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

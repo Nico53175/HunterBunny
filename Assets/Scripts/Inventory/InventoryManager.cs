@@ -36,8 +36,8 @@ public class InventoryManager : MonoBehaviour
         inventoryCells = new InventoryCell[xSize, ySize];
         InitializeUI();
 
-        inventoryData.AddItem(1, 2);
-        inventoryData.AddItem(2, 5);
+        inventoryData.AddItem(1, 8);
+        inventoryData.AddItem(2, 8);
         RefreshChangedInventoryUI();
 
         Canvas canvas = gameObject.GetComponent<Canvas>();
@@ -105,7 +105,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     // Crafting Methodes
-    private void FindCraftableItems()
+    public void FindCraftableItems()
     {
         foreach(InventoryCraftingCell cell in craftingCells)
         {
@@ -127,6 +127,8 @@ public class InventoryManager : MonoBehaviour
             cell.gameObject.SetActive(canBeCrafted);            
         }
     }
+
+
 
     // Refresh Methodes
     private void RefreshAllInventoryUI()
@@ -196,13 +198,13 @@ public class InventoryManager : MonoBehaviour
         RefreshChangedInventoryUI();
     }
 
-    private void AddItem(int itemId, int itemCount)
+    public void AddItem(int itemId, int itemCount)
     {
         inventoryData.AddItem(itemId, itemCount);
         RefreshChangedInventoryUI();
     }
 
-    public void DeleteItem(int itemId)
+    public void DeleteItem(int itemId) // Remove Item
     {
         Vector2? index = inventoryData.GetIndexById(itemId);
         if (index.HasValue) 
@@ -210,7 +212,21 @@ public class InventoryManager : MonoBehaviour
             int xIndex = (int)index.Value.x;
             int yIndex = (int)index.Value.y;
 
-            inventoryData.RemoveItem(itemId);
+            inventoryData.DeleteItem(itemId);
+            RefreshChangedInventoryUI();
+        }
+    }
+
+    public void DeleteItem(int itemId, int count) // Remove an ammount of Items
+    {
+        Vector2? index = inventoryData.GetIndexById(itemId);
+        if (index.HasValue)
+        {
+            int xIndex = (int)index.Value.x;
+            int yIndex = (int)index.Value.y;
+
+            inventoryData.DeleteItem(itemId, count);
+            
             RefreshChangedInventoryUI();
         }
     }
