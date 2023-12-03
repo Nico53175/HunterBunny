@@ -33,6 +33,9 @@ UI Representation: Create UI elements to represent the inventory in the game, al
 - Balancing: Regularly balance the item system, adjusting drop rates, crafting requirements, and item attributes to ensure a fair and enjoyable game experience.
 - Expandability: Design the system in a way that allows you to easily add new items, monsters, and crafting recipes in the future.
 
+Item Sheet:
+  https://leibnizfh-my.sharepoint.com/:x:/g/personal/nicolaus_sambeth_2021_leibniz-fh_de/ET7qq70s5b5Epos-AcHGNHMBQlXakk31qgmqUOKTf0zH-g?e=cjrgPR
+
 Create Item Prefabs (Joshi)
 
 Enemy State Machine 
