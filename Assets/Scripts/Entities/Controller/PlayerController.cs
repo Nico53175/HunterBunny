@@ -170,7 +170,7 @@ public class PlayerController : MonoBehaviour, IEntityEventSubscriber
 
         }
 
-        if(other.CompareTag("Crafting Bench") && Input.GetMouseButtonDown(0))
+        if(other.CompareTag("Crafting Bench"))
         {
             OnCraftingTableOpened?.Invoke();
         }

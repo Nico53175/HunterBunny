@@ -16,7 +16,9 @@ public class ItemSO : ScriptableObject
         Food,
         Mineral,
         Tool,
-        Weapon
+        Weapon,
+        Vehicle,
+        Electronic
     }
 
     public string itemName;

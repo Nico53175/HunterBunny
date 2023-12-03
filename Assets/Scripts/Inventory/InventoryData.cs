@@ -47,6 +47,7 @@ public class InventoryData
                     inventory[x, y].itemId = 0;
                     inventory[x, y].itemCount = 0;
                     changedCells.Add(new Vector2(x, y));
+                    return;
                 }
             }
         }

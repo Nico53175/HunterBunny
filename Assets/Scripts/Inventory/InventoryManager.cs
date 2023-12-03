@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,15 +20,17 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private InventoryCraftingCell craftingCellPrefab;
     [SerializeField] private Transform craftingCellParent;
 
-    [SerializeField] private Sprite defaultSprite;
-
-    [SerializeField] private ItemDatasetSO lookUpTable;
+    [SerializeField] private ItemDatasetSO itemDataSet;
     private Dictionary<int, ItemSO> itemLookupTable;
+
+    float mouseScroll;
+    [SerializeField] Color selectedItemBorderColor;
+    [SerializeField] private Color itemBorderColor;
 
     private void Start()
     {
         itemLookupTable = new Dictionary<int, ItemSO>();
-        foreach (var item in lookUpTable.items)
+        foreach (var item in itemDataSet.items)
         {
             itemLookupTable[item.itemId] = item;
         }
@@ -42,6 +45,47 @@ public class InventoryManager : MonoBehaviour
 
         Canvas canvas = gameObject.GetComponent<Canvas>();
         canvas.enabled = false;
+    }
+
+    private void Update()
+    {
+        mouseScroll = Input.GetAxis("Mouse ScrollWheel");
+        UpdateSelectedCell();
+    }
+
+    // Mouse Scroll Behavior
+    private void UpdateSelectedCell()
+    {
+        if (mouseScroll > 0 || mouseScroll < 0)
+        {
+            int oldSelectedCellIndex = 0;
+            int newSelectedCellIndex = 0;
+            for (int i = 0; i < xSize; i++)
+            {
+                if (inventoryCells[i, 0].IsSelected())
+                {
+                    oldSelectedCellIndex = i;
+                    break;
+                }
+            }
+
+            if (mouseScroll > 0) // Scroll up
+            {
+                newSelectedCellIndex = (oldSelectedCellIndex + 1) % xSize;
+            }
+            else // Scroll down
+            {
+                newSelectedCellIndex = (oldSelectedCellIndex - 1 + xSize) % xSize;
+            }
+
+            InventoryCell newSelectedCell = inventoryCells[newSelectedCellIndex, 0];
+            newSelectedCell.SetSelected(true);
+            newSelectedCell.backgroundImageComponent.color = selectedItemBorderColor;
+
+            InventoryCell oldSelectedCell = inventoryCells[oldSelectedCellIndex, 0];
+            oldSelectedCell.SetSelected(false);
+            oldSelectedCell.backgroundImageComponent.color = itemBorderColor;            
+        }
     }
 
     // Initialize Methodes
@@ -75,7 +119,7 @@ public class InventoryManager : MonoBehaviour
                 ItemSO item = craftableItemsSO[i];
                 InventoryCraftingCell cell = Instantiate(craftingCellPrefab, craftingCellParent);
                 cell.GetComponent<Image>().sprite = item.itemSprite;
-                cell.Initialize(this, item.itemId, item.craftingIngredients);
+                cell.Initialize(this, item.itemId, item.craftingIngredients);                
                 craftingCells[i] = cell;
 
                 RectTransform rectTransform = cell.GetComponent<RectTransform>();
@@ -86,23 +130,28 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
+
     private void InitializeInventoryCells()
     {
         GridLayoutGroup cellLayoutGroup = cellParent.GetComponent<GridLayoutGroup>();
         cellLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
         cellLayoutGroup.constraintCount = xSize;
 
-        for (int x = 0; x < xSize; x++)
+        for (int y = 0; y < ySize; y++) // Y first, because the LayoutGroup goes row by row and not column by column
         {
-            for (int y = 0; y < ySize; y++)
+            for (int x = 0; x < xSize; x++)
             {
                 InventoryCell cell = Instantiate(cellPrefab, cellParent);
-                cell.GetComponent<Image>().sprite = defaultSprite;
+                cell.GetComponent<Image>().sprite = null;
                 cell.Initialize(this, x, y);
+                cell.itemImageComponent.enabled = false;
                 inventoryCells[x, y] = cell;
             }
         }
+
+        inventoryCells[0, 0].SetSelected(true);
     }
+
 
     // Crafting Methodes
     public void FindCraftableItems()
@@ -144,13 +193,13 @@ public class InventoryManager : MonoBehaviour
                     ItemSO item = FindItemSOById(inventory[x, y].itemId);
                     if (item != null)
                     {
-                        cell.imageComponent.sprite = item.itemSprite;
+                        cell.itemImageComponent.sprite = item.itemSprite;
                         cell.textComponent.text = inventory[x, y].itemCount.ToString();
                     }
                 }
                 else
                 {
-                    cell.imageComponent.sprite = defaultSprite;
+                    cell.itemImageComponent.sprite = null;
                     cell.textComponent.text = "";
                 }
             }
@@ -169,12 +218,14 @@ public class InventoryManager : MonoBehaviour
             if (itemData.itemId != 0)
             {
                 ItemSO item = FindItemSOById(itemData.itemId);
-                cell.imageComponent.sprite = item?.itemSprite;
+                cell.itemImageComponent.enabled = true;
+                cell.itemImageComponent.sprite = item?.itemSprite;
                 cell.textComponent.text = itemData.itemCount.ToString();
             }
             else
             {
-                cell.imageComponent.sprite = defaultSprite;
+                cell.itemImageComponent.sprite = null;
+                cell.itemImageComponent.enabled = false;
                 cell.textComponent.text = "";
             }
         }
