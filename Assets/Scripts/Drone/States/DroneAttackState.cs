@@ -133,7 +133,6 @@ public class DroneAttackState : IDroneState
             {
                 if (enemyDestroyed)
                 {
-                    Debug.Log("Enemy Destroyed");
                     enemyHealthSystem = null;
                     drone.DestroyEnemy(enemy.transform.gameObject);
                     ReloadTimer.StartTimer(reloadTimerId, reloadTimer); // Start Reload Timer

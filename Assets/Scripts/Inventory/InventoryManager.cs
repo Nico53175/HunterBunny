@@ -26,6 +26,7 @@ public class InventoryManager : MonoBehaviour
     float mouseScroll;
     [SerializeField] Color selectedItemBorderColor;
     [SerializeField] private Color itemBorderColor;
+    private InventoryCell selectedCell;
 
     private void Start()
     {
@@ -58,16 +59,8 @@ public class InventoryManager : MonoBehaviour
     {
         if (mouseScroll > 0 || mouseScroll < 0)
         {
-            int oldSelectedCellIndex = 0;
+            int oldSelectedCellIndex = (int)selectedCell.index.x;
             int newSelectedCellIndex = 0;
-            for (int i = 0; i < xSize; i++)
-            {
-                if (inventoryCells[i, 0].IsSelected())
-                {
-                    oldSelectedCellIndex = i;
-                    break;
-                }
-            }
 
             if (mouseScroll > 0) // Scroll up
             {
@@ -78,12 +71,10 @@ public class InventoryManager : MonoBehaviour
                 newSelectedCellIndex = (oldSelectedCellIndex - 1 + xSize) % xSize;
             }
 
-            InventoryCell newSelectedCell = inventoryCells[newSelectedCellIndex, 0];
-            newSelectedCell.SetSelected(true);
-            newSelectedCell.backgroundImageComponent.color = selectedItemBorderColor;
+            selectedCell = inventoryCells[newSelectedCellIndex, 0];
+            selectedCell.backgroundImageComponent.color = selectedItemBorderColor;
 
-            InventoryCell oldSelectedCell = inventoryCells[oldSelectedCellIndex, 0];
-            oldSelectedCell.SetSelected(false);
+            InventoryCell oldSelectedCell = inventoryCells[oldSelectedCellIndex, 0];                                
             oldSelectedCell.backgroundImageComponent.color = itemBorderColor;            
         }
     }
@@ -97,7 +88,6 @@ public class InventoryManager : MonoBehaviour
 
     private void InitializeCraftingCells()
     {
-        Debug.Log("Initializing");
         List<ItemSO> craftableItemsSO = new List<ItemSO>();
         foreach(KeyValuePair<int, ItemSO> kvp in itemLookupTable)
         {
@@ -113,8 +103,6 @@ public class InventoryManager : MonoBehaviour
 
             for (int i = 0; i < craftingCells.Length; i++)
             {
-                Debug.Log("New Crafting Cell");
-
                 // Calculate Position is missing
                 ItemSO item = craftableItemsSO[i];
                 InventoryCraftingCell cell = Instantiate(craftingCellPrefab, craftingCellParent);
@@ -149,7 +137,8 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        inventoryCells[0, 0].SetSelected(true);
+        selectedCell = inventoryCells[0, 0];
+        inventoryCells[0, 0].backgroundImageComponent.color = selectedItemBorderColor;
     }
 
 
@@ -174,35 +163,6 @@ public class InventoryManager : MonoBehaviour
                 }
             }
             cell.gameObject.SetActive(canBeCrafted);            
-        }
-    }
-
-
-
-    // Refresh Methodes
-    private void RefreshAllInventoryUI()
-    {
-        InventoryData.ItemData[,] inventory = inventoryData.GetInventoryData();
-        for (int x = 0; x < xSize; x++)
-        {
-            for (int y = 0; y < ySize; y++)
-            {
-                InventoryCell cell = inventoryCells[x, y];
-                if (inventory[x, y].itemId != 0)
-                {
-                    ItemSO item = FindItemSOById(inventory[x, y].itemId);
-                    if (item != null)
-                    {
-                        cell.itemImageComponent.sprite = item.itemSprite;
-                        cell.textComponent.text = inventory[x, y].itemCount.ToString();
-                    }
-                }
-                else
-                {
-                    cell.itemImageComponent.sprite = null;
-                    cell.textComponent.text = "";
-                }
-            }
         }
     }
 

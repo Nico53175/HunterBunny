@@ -144,7 +144,6 @@ public class PlayerController : MonoBehaviour, IEntityEventSubscriber
     {
         if (other.CompareTag("Item") && Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Picked Up");
             ItemStructure item;
             int itemId;
             int itemCount;        

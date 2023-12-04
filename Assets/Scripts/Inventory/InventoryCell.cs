@@ -14,7 +14,6 @@ public class InventoryCell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [SerializeField] public TMP_Text textComponent;
     private Vector2 centerOffset;
     private int ciblingIndex;
-    private bool isSelected;
     public void Initialize(InventoryManager inventoryManager, int x, int y)
     {
         this.inventoryManager = inventoryManager;
@@ -53,15 +52,5 @@ public class InventoryCell : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
         transform.SetSiblingIndex(ciblingIndex);
         originalParent.GetComponent<GridLayoutGroup>().enabled = true;
-    }
-
-    public void SetSelected(bool isSelected)
-    {
-        this.isSelected = isSelected;
-    }
-    
-    public bool IsSelected()
-    {
-        return isSelected;
     }
 }

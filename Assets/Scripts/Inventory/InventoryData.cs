@@ -134,9 +134,9 @@ public class InventoryData
 
     private int[] FindFreeSpot()
     {
-        for (int x = 0; x < xSize; x++)
+        for (int y = 0; y < ySize; y++)
         {
-            for (int y = 0; y < ySize; y++)
+            for (int x = 0; x < xSize; x++)
             {
                 if (inventory[x, y].itemId == 0) 
                 {

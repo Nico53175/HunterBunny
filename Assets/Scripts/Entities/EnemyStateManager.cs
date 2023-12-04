@@ -47,7 +47,6 @@ public class EnemyStateManager : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player)
         {
-            Debug.Log("Player found");
             playerTransform = player.transform;
         }
         else
