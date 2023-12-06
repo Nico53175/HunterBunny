@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Diamond
   itemId: 4
-  itemSprite: {fileID: 0}
+  itemSprite: {fileID: 21300000, guid: b97f4085767605244b5985c6137a1cf4, type: 3}
   itemType: 1
   craftingIngredients: []

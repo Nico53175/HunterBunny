@@ -14,8 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Ruby
   itemId: 3
-  itemSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  itemMesh: {fileID: 0}
-  itemMaterial: {fileID: 0}
+  itemSprite: {fileID: 21300000, guid: a408916b149f6da4f9917b5d07f8b6d9, type: 3}
   itemType: 1
   craftingIngredients: []

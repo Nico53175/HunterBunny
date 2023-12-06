@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
-    [SerializeField] private PlayerController playerController;
+    [SerializeField] private PlayerInteraction player;
     private InventoryData inventoryData;
     [SerializeField] private int xSizeMax;
     [SerializeField] private int ySizeMax;
@@ -93,6 +92,7 @@ public class InventoryManager : MonoBehaviour
         {
             if(kvp.Value.craftingIngredients.Count > 0)
             {
+                Debug.Log(".");
                 craftableItemsSO.Add(kvp.Value);
             }
         }
@@ -141,11 +141,10 @@ public class InventoryManager : MonoBehaviour
         inventoryCells[0, 0].backgroundImageComponent.color = selectedItemBorderColor;
     }
 
-
     // Crafting Methodes
     public void FindCraftableItems()
     {
-        foreach(InventoryCraftingCell cell in craftingCells)
+        foreach (InventoryCraftingCell cell in craftingCells)
         {
             bool canBeCrafted = true;
 
@@ -162,7 +161,7 @@ public class InventoryManager : MonoBehaviour
                     break;
                 }
             }
-            cell.gameObject.SetActive(canBeCrafted);            
+            cell.gameObject.SetActive(canBeCrafted);
         }
     }
 
@@ -200,6 +199,7 @@ public class InventoryManager : MonoBehaviour
         {
             return item;
         }
+        Debug.Log("Item not found");
         return null;
     }
 
@@ -245,13 +245,13 @@ public class InventoryManager : MonoBehaviour
     // Event Listeners
     private void OnEnable()
     {
-        playerController.OnItemPickedUp += AddItem;
-        playerController.OnCraftingTableOpened += FindCraftableItems;
+        player.OnItemPickedUp += AddItem;
+        player.OnCraftingTableOpened += FindCraftableItems;
     }
 
     private void OnDisable()
     {
-        playerController.OnItemPickedUp -= AddItem;
-        playerController.OnCraftingTableOpened -= FindCraftableItems;
+        player.OnItemPickedUp -= AddItem;
+        player.OnCraftingTableOpened -= FindCraftableItems;
     }
 }

@@ -28,12 +28,6 @@ public class PlayerController : MonoBehaviour, IEntityEventSubscriber
 
     public UnityEvent<int> OnLevelUp = new UnityEvent<int>();
 
-    public delegate void ItemPickedUpEventHandler(int itemId, int itemCount);
-    public event ItemPickedUpEventHandler OnItemPickedUp; 
-    
-    public delegate void WorkBenchOpenedEventHandler();
-    public event WorkBenchOpenedEventHandler OnCraftingTableOpened; 
-
     private void Awake()
     {
         if (healthSystem != null)
@@ -138,40 +132,5 @@ public class PlayerController : MonoBehaviour, IEntityEventSubscriber
         Ray ray = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
         RaycastHit hit;
         isGrounded = Physics.Raycast(ray, out hit, groundCheckDistance, groundLayer) ? true : false;
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("Item") && Input.GetMouseButtonDown(0))
-        {
-            ItemStructure item;
-            int itemId;
-            int itemCount;        
-            Destroy(other.gameObject);
-
-            if(other.transform.parent != null)
-            {
-                GameObject parent = other.transform.parent.gameObject;
-                item = parent.GetComponent<ItemStructure>();
-                itemId = item.GetItemId();
-                itemCount = item.GetItemCount();
-                Destroy(parent);
-                OnItemPickedUp?.Invoke(itemId, itemCount);
-            }
-            else
-            {
-                item = other.GetComponent<ItemStructure>();
-                itemId = item.GetItemId();
-                itemCount = item.GetItemCount();
-                Destroy(other.gameObject);
-                OnItemPickedUp?.Invoke(itemId, itemCount);
-            }
-
-        }
-
-        if(other.CompareTag("Crafting Bench"))
-        {
-            OnCraftingTableOpened?.Invoke();
-        }
     }
 }
